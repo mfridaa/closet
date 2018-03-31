@@ -1,0 +1,16 @@
+# Eclipse
+Backend/closet/.classpath
+Backend/closet/.project
+Backend/closet/.settings/
+
+# Intellij
+Backend/closet/.idea/
+Backend/closet/*.iml
+Backend/closet/*.iws
+
+# Mac
+Backend/closet/.DS_Store
+
+# Maven
+Backend/closet/log/
+Backend/closet/target/
