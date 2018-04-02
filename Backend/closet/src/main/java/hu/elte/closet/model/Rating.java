@@ -6,43 +6,49 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "RATINGS")
 public class Rating extends BaseEntity {
 
-	public Rating(long rater, int rating, String description) {
+	public Rating(String rater, int ratingNum, String description) {
 		this.rater = rater;
-		this.rating = rating;
+		this.ratingNum = ratingNum;
 		this.description = description;
 	}
 
-	@Column
-	private long rater;
+	public Rating() {
+	}
 
 	@Column
-	private int rating;
+	private String rater;
+
+	@Column
+	private int ratingNum;
 
 	@Column
 	private String description;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "toilet")
-	private BasicToilet toilet;
+	private BasicToilet toilet = new BasicToilet();
 
-	public long getRater() {
+	public String getRater() {
 		return rater;
 	}
 
-	public void setRater(long rater) {
+	public void setRater(String rater) {
 		this.rater = rater;
 	}
 
-	public int getRating() {
-		return rating;
+	public int getRatingNum() {
+		return ratingNum;
 	}
 
-	public void setRating(int rating) {
-		this.rating = rating;
+	public void setRating(int ratingNum) {
+		this.ratingNum = ratingNum;
 	}
 
 	public String getDescription() {
@@ -51,6 +57,14 @@ public class Rating extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public BasicToilet getToilet() {
+		return toilet;
+	}
+
+	public void setToilet(BasicToilet toilet) {
+		this.toilet = toilet;
 	}
 
 }
