@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.elte.closet.dao.RatingDaoImpl;
-import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.Rating;
 
 @Service
@@ -17,7 +16,13 @@ public class RatingService {
 		this.ratingDao = ratingDao;
 	}
 
+	public void addRating(Rating rating) {
+		ratingDao.addRating(rating);
+	}
+	
 	public Rating getRatingById(int id) {
 		return ratingDao.getRatingById(id);
 	}
+	
+	
 }

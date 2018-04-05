@@ -1,5 +1,8 @@
 package hu.elte.closet.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 
 import javax.persistence.Column;
@@ -7,13 +10,29 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity
-public class OpeningHours extends BaseEntity {
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-	public OpeningHours(Day day, LocalTime openingHour, LocalTime closingHour) {
+@Entity
+public class OpeningHour extends BaseEntity {
+
+	public OpeningHour(Day day, LocalTime openingHour, LocalTime closingHour) {
 		this.day = day;
 		this.openingHour = openingHour;
 		this.closingHour = closingHour;
+	}
+	
+	
+
+	public OpeningHour(String day, String openingHour, String closingHour) {
+		DateFormat formatter = new SimpleDateFormat("HH:mm");
+		this.day = Day.valueOf(day);
+		try {
+			this.openingHour = LocalTime.ofNanoOfDay(formatter.parse(openingHour).getTime());
+			this.openingHour = LocalTime.ofNanoOfDay(formatter.parse(closingHour).getTime());
+		}catch(ParseException e) {
+			//TODO:Log, openingHour construct
+		}
+		
 	}
 
 	@Column(nullable = false)
@@ -25,6 +44,7 @@ public class OpeningHours extends BaseEntity {
 	@Column(nullable = false)
 	private LocalTime closingHour;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "toilet")
 	private BasicToilet toilet;
@@ -53,8 +73,9 @@ public class OpeningHours extends BaseEntity {
 		this.closingHour = closingHour;
 	}
 
+	public void setToilet(BasicToilet toilet) {
+		this.toilet = toilet;
+	}
+
 }
 
-enum Day {
-	Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
-}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.elte.closet.model.BasicToilet;
+import hu.elte.closet.model.OpeningHour;
 import hu.elte.closet.model.Rating;
 import hu.elte.closet.model.request.NameAndLatitudeAndLongitude;
 import hu.elte.closet.service.BasicToiletService;
@@ -44,5 +45,10 @@ public class BasicToiletController {
 	@PostMapping("/rating/add/{id}")
 	public void addRating(@PathVariable int id, @RequestBody Rating rating) {
 		basicToiletService.addRating(id, rating);
+	}
+	
+	@PostMapping("/openinghour/add/{id}")
+	public void addOpeningHour(@PathVariable int id, @RequestBody OpeningHour openingHour) {
+		basicToiletService.addOpeningHour(id, openingHour);
 	}
 }

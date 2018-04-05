@@ -1,12 +1,9 @@
 package hu.elte.closet.dao;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.elte.closet.model.BasicToilet;
-import hu.elte.closet.model.Rating;
 import hu.elte.closet.repository.BasicToiletRepository;
 
 @Service
