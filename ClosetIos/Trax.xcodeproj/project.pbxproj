@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3D47B2FC207F84A300E51AB7 /* NavigationTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */; };
-		3D47B2FF207F887F00E51AB7 /* messy.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D47B2FD207F887F00E51AB7 /* messy.png */; };
-		3D47B300207F887F00E51AB7 /* clean.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D47B2FE207F887F00E51AB7 /* clean.png */; };
 		3D47B302207FF28900E51AB7 /* SearchBarDisplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */; };
 		3D75A8FC204740F600C47FFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D75A8FB204740F600C47FFA /* AppDelegate.swift */; };
 		3D75A8FE204740F600C47FFA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D75A8FD204740F600C47FFA /* ViewController.swift */; };
@@ -26,8 +24,6 @@
 
 /* Begin PBXFileReference section */
 		3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTabBarViewController.swift; sourceTree = "<group>"; };
-		3D47B2FD207F887F00E51AB7 /* messy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messy.png; sourceTree = "<group>"; };
-		3D47B2FE207F887F00E51AB7 /* clean.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clean.png; sourceTree = "<group>"; };
 		3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarDisplayController.swift; sourceTree = "<group>"; };
 		3D75A8F8204740F600C47FFA /* Trax.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trax.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D75A8FB204740F600C47FFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -77,16 +73,10 @@
 			isa = PBXGroup;
 			children = (
 				3DF5B01D2079241D0046C107 /* Supporting Files */,
-				3DF27C48204975E300B99F5A /* BasicToilet.swift */,
-				3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */,
-				3D75A8FB204740F600C47FFA /* AppDelegate.swift */,
+				3DD96C4820800573008F68AD /* Data */,
+				3DD96C4720800553008F68AD /* Controllers */,
 				3D75A8FF204740F600C47FFA /* Main.storyboard */,
-				3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */,
-				3DF27C4A2049761F00B99F5A /* Ratings.swift */,
-				3D75A8FD204740F600C47FFA /* ViewController.swift */,
-				3DF5B01B207923E60046C107 /* URLStorage.swift */,
 				3D75A907204740F600C47FFA /* Info.plist */,
-				3DF5B019207919B80046C107 /* NameAndLatitudeAndLongitude.swift */,
 			);
 			path = Trax;
 			sourceTree = "<group>";
@@ -99,11 +89,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3DD96C4720800553008F68AD /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */,
+				3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */,
+				3D75A8FD204740F600C47FFA /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		3DD96C4820800573008F68AD /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3DF27C48204975E300B99F5A /* BasicToilet.swift */,
+				3DF27C4A2049761F00B99F5A /* Ratings.swift */,
+				3DF5B019207919B80046C107 /* NameAndLatitudeAndLongitude.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		3DF5B01D2079241D0046C107 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3D47B2FE207F887F00E51AB7 /* clean.png */,
-				3D47B2FD207F887F00E51AB7 /* messy.png */,
+				3DF5B01B207923E60046C107 /* URLStorage.swift */,
+				3D75A8FB204740F600C47FFA /* AppDelegate.swift */,
 				3D75A902204740F600C47FFA /* Assets.xcassets */,
 				3D75A904204740F600C47FFA /* LaunchScreen.storyboard */,
 				3D841CA0207D74780068407A /* Budapest.gpx */,
@@ -171,9 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D75A906204740F600C47FFA /* LaunchScreen.storyboard in Resources */,
-				3D47B300207F887F00E51AB7 /* clean.png in Resources */,
 				3D841CA1207D74780068407A /* Budapest.gpx in Resources */,
-				3D47B2FF207F887F00E51AB7 /* messy.png in Resources */,
 				3D75A903204740F600C47FFA /* Assets.xcassets in Resources */,
 				3D75A901204740F600C47FFA /* Main.storyboard in Resources */,
 			);
@@ -335,6 +343,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J5Z5HYT9F8;
 				INFOPLIST_FILE = Trax/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kentaur.Trax;
@@ -349,6 +358,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J5Z5HYT9F8;
 				INFOPLIST_FILE = Trax/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kentaur.Trax;
