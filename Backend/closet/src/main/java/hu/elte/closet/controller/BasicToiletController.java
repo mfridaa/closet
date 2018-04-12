@@ -51,4 +51,6 @@ public class BasicToiletController {
 	public void addOpeningHour(@PathVariable int id, @RequestBody OpeningHour openingHour) {
 		basicToiletService.addOpeningHour(id, openingHour);
 	}
+	
+	
 }

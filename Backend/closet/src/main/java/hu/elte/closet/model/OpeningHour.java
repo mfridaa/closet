@@ -1,8 +1,5 @@
 package hu.elte.closet.model;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 
 import javax.persistence.Column;
@@ -15,24 +12,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class OpeningHour extends BaseEntity {
 
+	
 	public OpeningHour(Day day, LocalTime openingHour, LocalTime closingHour) {
 		this.day = day;
 		this.openingHour = openingHour;
 		this.closingHour = closingHour;
 	}
-	
-	
 
-	public OpeningHour(String day, String openingHour, String closingHour) {
-		DateFormat formatter = new SimpleDateFormat("HH:mm");
-		this.day = Day.valueOf(day);
-		try {
-			this.openingHour = LocalTime.ofNanoOfDay(formatter.parse(openingHour).getTime());
-			this.openingHour = LocalTime.ofNanoOfDay(formatter.parse(closingHour).getTime());
-		}catch(ParseException e) {
-			//TODO:Log, openingHour construct
-		}
-		
+	public OpeningHour() {
 	}
 
 	@Column(nullable = false)
@@ -76,6 +63,7 @@ public class OpeningHour extends BaseEntity {
 	public void setToilet(BasicToilet toilet) {
 		this.toilet = toilet;
 	}
+	
+	
 
 }
-

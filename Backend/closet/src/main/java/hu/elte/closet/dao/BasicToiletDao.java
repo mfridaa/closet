@@ -1,6 +1,7 @@
 package hu.elte.closet.dao;
 
 import hu.elte.closet.model.BasicToilet;
+import hu.elte.closet.model.Location;
 
 public interface BasicToiletDao {
 
