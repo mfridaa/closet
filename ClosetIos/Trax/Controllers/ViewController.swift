@@ -12,6 +12,10 @@ import CoreLocation
 //CLLocationManagerDelegate
 class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate {
     
+    struct Constans{
+        public static let ShowDetailsSegue = "Show details"
+    }
+    
     // MARK: toiletBarItem
     @IBOutlet weak var toiletBarItem: UITabBarItem!
     // MARK: spinningBar
@@ -34,6 +38,18 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
             
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let navController = (segue.destination as? UINavigationController){
+            let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
+            if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
+                
+                
+                
+            }
+        }
+    }
+
     
     private func clearWaypoint(){
         mapView?.removeAnnotation(mapView.annotations as! MKAnnotation)
@@ -71,7 +87,6 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
 //        }
         
         var annotationView: MKAnnotationView! = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.AnnotationViewReuseIdentifier)
-        print("asd")
         if annotation is MKUserLocation {
             let pin = mapView.view(for: annotation) as? MKPinAnnotationView ?? MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
             pin.pinTintColor = UIColor.purple
@@ -88,13 +103,23 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
             annotationView.annotation = annotation
             
         }
-        let detailButton = UIButton.init()
+        //MAKR: Button for segue to more detail
+        let detailButton = UIButton.init(type: UIButtonType.detailDisclosure)
         detailButton.setImage(#imageLiteral(resourceName: "CleanToilet"), for: .focused)
         detailButton.isHidden = false
         annotationView.image! = #imageLiteral(resourceName: "CleanToilet")
-        annotationView.leftCalloutAccessoryView = detailButton
+        
+        
+        annotationView.rightCalloutAccessoryView = detailButton
         annotationView.detailCalloutAccessoryView = nil
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if let button = (control as? UIButton),button.buttonType == UIButtonType.detailDisclosure  {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            performSegue(withIdentifier: "Show details", sender: view)
+        }
     }
     
     let manager = CLLocationManager()
@@ -189,3 +214,6 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
 //    }
 
 }
+
+
+
