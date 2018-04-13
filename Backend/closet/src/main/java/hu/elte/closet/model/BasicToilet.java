@@ -16,6 +16,8 @@ import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import hu.elte.closet.utils.ClosetUtils;
 
 @Entity
@@ -50,10 +52,11 @@ public class BasicToilet extends BaseEntity {
 	@Column
 	private Status status;
 
-//	@JsonIgnore
+	@JsonIgnore
 	@OneToMany(mappedBy = "toilet", cascade = { CascadeType.ALL })
 	private List<Rating> ratings = new LinkedList<Rating>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "toilet", cascade = { CascadeType.ALL })
 	@MapKey(name = "day")
 	private Map<Day, OpeningHour> openingHours = new HashMap<Day, OpeningHour>();

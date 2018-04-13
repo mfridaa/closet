@@ -1,5 +1,6 @@
 package hu.elte.closet.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,11 @@ public class BasicToiletController {
 	@PostMapping("/openinghour/add/{id}")
 	public void addOpeningHour(@PathVariable int id, @RequestBody OpeningHour openingHour) {
 		basicToiletService.addOpeningHour(id, openingHour);
+	}
+	
+	@GetMapping("/all")
+	public ArrayList<BasicToilet> getAll() {
+		return basicToiletService.getAll();
 	}
 	
 	

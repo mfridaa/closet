@@ -1,6 +1,7 @@
 package hu.elte.closet.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 
 	public void addBasicToilet(BasicToilet basicToilet) {
 		Location location = basicToilet.getLocation();
-		ArrayList<BasicToilet> basicToiletList = basicToiletRepository.findByLocation(location.getLatitude(), location.getLongitude());
+		ArrayList<BasicToilet> basicToiletList = getBasicToiletsByLocation(location);
 		if(!basicToiletList.contains(basicToilet))
 			basicToiletRepository.save(basicToilet);
 		else
@@ -34,6 +35,17 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 
 	public BasicToilet getBasicToiletById(int id) {
 		return basicToiletRepository.findById(id);
-	}	
+	}
+	
+	public ArrayList<BasicToilet> getBasicToiletsByLocation(Location location) {
+		float latitude = location.getLatitude();
+		float longitude = location.getLongitude();
+		return basicToiletRepository.findByLocation(latitude, longitude);
+	}
+	
+	public ArrayList<BasicToilet> getAll(){
+		ArrayList<BasicToilet>  asd = basicToiletRepository.findAll();
+		return basicToiletRepository.findAll();
+	}
 	
 }

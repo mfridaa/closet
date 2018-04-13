@@ -1,5 +1,6 @@
 package hu.elte.closet.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,5 +58,9 @@ public class BasicToiletService {
 	public Map<Day, OpeningHour> getOpeningHoursById(int id) {
 		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
 		return basicToilet.getOpeningHours();
+	}
+	
+	public ArrayList<BasicToilet> getAll(){
+		return basicToiletDao.getAll();
 	}
 }
