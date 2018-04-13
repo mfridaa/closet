@@ -43,7 +43,11 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
         if let navController = (segue.destination as? UINavigationController){
             let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
             if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
-                
+                print(sender!)
+//                if let annotation = (sender as? MKAnnotation){
+//                    print(annotation.title)
+//                }
+//                toiletInformationTableViewController.toiletName = "asd"
                 
                 
             }

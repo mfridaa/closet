@@ -17,7 +17,6 @@
 		3D75A90F2048648200C47FFA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D75A90E2048648200C47FFA /* CoreLocation.framework */; };
 		3D841CA1207D74780068407A /* Budapest.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 3D841CA0207D74780068407A /* Budapest.gpx */; };
 		3DD96C4A2080204E008F68AD /* ToiletInformationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */; };
-		3DD96C4C2080296F008F68AD /* ToiletInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD96C4B2080296F008F68AD /* ToiletInformationViewController.swift */; };
 		3DF27C49204975E300B99F5A /* BasicToilet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF27C48204975E300B99F5A /* BasicToilet.swift */; };
 		3DF27C4B2049761F00B99F5A /* Ratings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF27C4A2049761F00B99F5A /* Ratings.swift */; };
 		3DF5B01A207919B80046C107 /* NameAndLatitudeAndLongitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF5B019207919B80046C107 /* NameAndLatitudeAndLongitude.swift */; };
@@ -37,7 +36,6 @@
 		3D75A90E2048648200C47FFA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3D841CA0207D74780068407A /* Budapest.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Budapest.gpx; sourceTree = "<group>"; };
 		3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletInformationsTableViewController.swift; sourceTree = "<group>"; };
-		3DD96C4B2080296F008F68AD /* ToiletInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletInformationViewController.swift; sourceTree = "<group>"; };
 		3DF27C48204975E300B99F5A /* BasicToilet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicToilet.swift; sourceTree = "<group>"; };
 		3DF27C4A2049761F00B99F5A /* Ratings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratings.swift; sourceTree = "<group>"; };
 		3DF5B019207919B80046C107 /* NameAndLatitudeAndLongitude.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameAndLatitudeAndLongitude.swift; sourceTree = "<group>"; };
@@ -97,7 +95,6 @@
 			isa = PBXGroup;
 			children = (
 				3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */,
-				3DD96C4B2080296F008F68AD /* ToiletInformationViewController.swift */,
 				3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */,
 				3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */,
 				3D75A8FD204740F600C47FFA /* ViewController.swift */,
@@ -202,7 +199,6 @@
 			files = (
 				3DD96C4A2080204E008F68AD /* ToiletInformationsTableViewController.swift in Sources */,
 				3D47B302207FF28900E51AB7 /* SearchBarDisplayController.swift in Sources */,
-				3DD96C4C2080296F008F68AD /* ToiletInformationViewController.swift in Sources */,
 				3D47B2FC207F84A300E51AB7 /* NavigationTabBarViewController.swift in Sources */,
 				3D75A8FE204740F600C47FFA /* ViewController.swift in Sources */,
 				3D75A8FC204740F600C47FFA /* AppDelegate.swift in Sources */,

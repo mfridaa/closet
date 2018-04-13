@@ -9,11 +9,23 @@
 import UIKit
 
 class ToiletInformationsTableViewController: UITableViewController {
-    @IBOutlet weak var toiletNameLabel: UITableViewCell!
+    @IBOutlet weak var toiletNameLabel: UITableViewCell!{
+        didSet{
+            toiletNameLabel.detailTextLabel?.text = toiletName
+        }
+    }
     
-    @IBOutlet weak var ratingLabel: UITableViewCell!
+    @IBOutlet weak var ratingLabel: UITableViewCell!{
+        didSet{
+            ratingLabel.detailTextLabel?.text = String(ratingValue!)
+        }
+    }
+    
+    
     
     public var toiletName: String?
+    
+    public var ratingValue: Float?
     
     override func viewDidLoad() {
         super.viewDidLoad()
