@@ -12,7 +12,7 @@ import MapKit
 
 class ToiletDataTableViewController: ToiletTableViewViewController
 {
-    var container: NSPersistentContainer!
+    var container: NSPersistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
 //    {
 //        didSet{
 //            print("asd")
@@ -22,21 +22,13 @@ class ToiletDataTableViewController: ToiletTableViewViewController
 
     override func viewWillAppear(_ animated: Bool) {
         
-        container?.performBackgroundTask{ contex in
-            print( try! Toilet.allToilets(inDatabase: contex))
-            do{
-                let number = try Toilet.numberOfToilets(InDatabase: contex)
-                DispatchQueue.main.async {
-                    print(number)
-                    self.numberOfDataInDatabase = number
-                }
-                
+        container.performBackgroundTask{ contex in
+            if let toilets = try? Toilet.allToilets(inDatabase: contex){
+                self.addWayPoints(wayPoints: toilets)
             }
-            catch{
-                DispatchQueue.main.async {
-                    self.numberOfDataInDatabase = 0
-                }
-            }
+            print(try! Toilet.allToilets(inDatabase: contex))
+//            print( try! Toilet.allToilets(inDatabase: contex))
+           
         }
     }
     
@@ -44,7 +36,7 @@ class ToiletDataTableViewController: ToiletTableViewViewController
     
     
     private func countDataInDatabase() {
-        container?.performBackgroundTask{ contex in
+        container.performBackgroundTask{ contex in
             do{
                 let number = try Toilet.numberOfToilets(InDatabase: contex)
                 DispatchQueue.main.async {
@@ -67,14 +59,13 @@ class ToiletDataTableViewController: ToiletTableViewViewController
     }
     
     private func updateDatabase(with toilets :[BasicToilet]){
-        container?.performBackgroundTask{ contex in
+        container.performBackgroundTask{ contex in
             for toiletInfo in toilets{
-                print("asd")
                 _ = try? Toilet.findOrCreateToilet(matching: toiletInfo, in: contex)
             }
             try? contex.save()
         }
-        printDatabaseStatistics()
+//        printDatabaseStatistics()
     }
     
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -95,17 +86,17 @@ class ToiletDataTableViewController: ToiletTableViewViewController
                 }
             }
         }
-    
-    private func printDatabaseStatistics(){
-        if let context = container?.viewContext{
-//            let request: NSFetchRequest<Toilet> = Toilet.fetchRequest()
-//            if let count = (try? context.fetch(Toilet.fetchRequest()))?.count {
+}
+//    private func printDatabaseStatistics(){
+//        if let context = container?.viewContext{
+////            let request: NSFetchRequest<Toilet> = Toilet.fetchRequest()
+////            if let count = (try? context.fetch(Toilet.fetchRequest()))?.count {
+////                print("\(count) toilets")
+////            }
+//            if let count = try? context.count(for: Toilet.fetchRequest()) {
 //                print("\(count) toilets")
 //            }
-            if let count = try? context.count(for: Toilet.fetchRequest()) {
-                print("\(count) toilets")
-            }
-        }
-    }
-
-}
+//        }
+//    }
+//
+//}

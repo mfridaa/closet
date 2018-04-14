@@ -21,7 +21,7 @@ class Toilet: NSManagedObject
         do{
             let matches = try context.fetch(request)
             if matches.count > 0{
-                assert(matches.count > 1, "Toilet.findOrCreateToilet -- inconsistencs")
+//                assert(matches.count > 1, "Toilet.findOrCreateToilet -- inconsistencs")
                 return matches[0]
             }
         } catch {
