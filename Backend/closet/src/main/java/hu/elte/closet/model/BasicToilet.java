@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -50,6 +52,7 @@ public class BasicToilet extends BaseEntity {
 	private float rating;
 
 	@Column
+	@Enumerated(EnumType.STRING)
 	private Status status;
 
 	@JsonIgnore
