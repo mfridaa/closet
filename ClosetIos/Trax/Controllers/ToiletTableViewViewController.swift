@@ -41,22 +41,24 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let navController = (segue.destination as? UINavigationController){
-            let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
-            if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
-                if let annotation = (sender as? MKAnnotation),annotation.title != nil{
-                    toiletInformationTableViewController.toiletName = annotation.title!
-                    if let rating = (annotation.subtitle! as? Float){
-                        toiletInformationTableViewController.ratingValue = rating
-                    }
-                }
-//                toiletInformationTableViewController.toiletName = "asd"
-                
-                
-            }
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let navController = (segue.destination as? UINavigationController){
+//            let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
+//            if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
+//                if let annotation = (sender as? MKAnnotation),annotation.title != nil{
+//                    toiletInformationTableViewController.toiletName = annotation.title!
+//                    
+//                    
+//                    if let name = annotation.title{
+//                        toiletInformationTableViewController.toiletName = name
+//                    }
+//                }
+////                toiletInformationTableViewController.toiletName = "asd"
+//                
+//                
+//            }
+//        }
+//    }
 
     
     private func clearWaypoint(){
@@ -65,8 +67,8 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
     
     @IBAction func addNewPlace(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began{
-            let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
-            let ratings = [Float]()
+//            let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
+//            let ratings = [Float]()
 //            let toilet = BasicToilet(name: "newToilet", location: MapCoordinate(latitude: Float(coordinate.latitude), longitude: Float(coordinate.longitude)), rating: 0, status: "", ratings: ratings,creator: creator)
 //            mapView.addAnnotation(toilet.MKPAnnotation())
 //            postNewToilet(of: toilet)
@@ -126,7 +128,8 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if let button = (control as? UIButton),button.buttonType == UIButtonType.detailDisclosure  {
             mapView.deselectAnnotation(view.annotation, animated: false)
-            performSegue(withIdentifier: "Show details", sender: view.annotation)
+            parent?.performSegue(withIdentifier: "Show informations", sender: view.annotation)
+//            performSegue(withIdentifier: "Show details", sender: view.annotation)
         }
     }
     
@@ -139,7 +142,6 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
 
         let myLocation: CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         let region: MKCoordinateRegion = MKCoordinateRegionMake(myLocation, span)
-            
         mapView.setRegion(region, animated: true)
         
 
@@ -154,12 +156,10 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
         manager.requestAlwaysAuthorization()
         manager.startUpdatingLocation()
         // Do any additional setup after loading the view, typically from a nib.
-        var newToilets = [BasicToilet]()
 //        newToilets.append(BasicToilet(name: "Corvinus", latitudeAndLongitude: MapCoordinate(latitude: 47.485715, longitude: 19.058456), rating: 0, status: "Opened", ratings: [],creator: creator))
 //        newToilets.append(BasicToilet(name: "ELTE", latitudeAndLongitude: MapCoordinate(latitude: 47.474606, longitude: 19.062104), rating: 0, status: "Opened", ratings: [],creator: creator))
 //        newToilets.append(BasicToilet(name: "WestEnd", latitudeAndLongitude: MapCoordinate(latitude: 47.514128 ,longitude: 19.059922), rating: 0, status: "Opened", ratings: [],creator: creator))
 //        toilets = newToilets
-         getToilets()
         
     }
     
@@ -174,44 +174,19 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
     }
     
     //MARK: spinningBar status
-    private func processStarted(){
+    public func processStarted(){
         dataComing.startAnimating()
         mapView.isHidden = true
     }
     
-    private func processTerminated(){
+    public func processTerminated(with result: [BasicToilet]){
+        toilets = result
         dataComing.stopAnimating()
         mapView.isHidden = false
     }
     
     //MARK: get toilets from server
-    private func getToilets(){
-        if let url = URL(string : URLStorage.getToilets){
-            processStarted()
-            print(url)
-            URLSession.shared.dataTask(with: url) { data, response, err in
-                if let data = data{
-                    do{
-                        
-                        let newToilets = try JSONDecoder().decode([BasicToilet].self, from: data)
-                        print("ok")
-                        DispatchQueue.main.async {
-                            self.processTerminated()
-                            self.toilets = newToilets
-                            print("asd")
-                            print(newToilets)
-                        }
-                    }catch let jsonErr{
-                        print("Error serializing json:" ,jsonErr)
-                    }
-                }
-                else{
-                    print("error")
-                }
-                }.resume()
-        }
-
-    }
+    
     
 
 //

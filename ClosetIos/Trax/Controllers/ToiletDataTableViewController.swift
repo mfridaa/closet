@@ -8,14 +8,62 @@
 
 import UIKit
 import CoreData
+import MapKit
 
 class ToiletDataTableViewController: ToiletTableViewViewController
 {
-    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    var container: NSPersistentContainer!
+//    {
+//        didSet{
+//            print("asd")
+//            countDataInDatabase()
+//        }
+//    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        
+        container?.performBackgroundTask{ contex in
+            print( try! Toilet.allToilets(inDatabase: contex))
+            do{
+                let number = try Toilet.numberOfToilets(InDatabase: contex)
+                DispatchQueue.main.async {
+                    print(number)
+                    self.numberOfDataInDatabase = number
+                }
+                
+            }
+            catch{
+                DispatchQueue.main.async {
+                    self.numberOfDataInDatabase = 0
+                }
+            }
+        }
+    }
+    
+    public var numberOfDataInDatabase:Int?
+    
+    
+    private func countDataInDatabase() {
+        container?.performBackgroundTask{ contex in
+            do{
+                let number = try Toilet.numberOfToilets(InDatabase: contex)
+                DispatchQueue.main.async {
+                    self.numberOfDataInDatabase = number
+                }
+                
+            }
+            catch{
+                DispatchQueue.main.async {
+                    self.numberOfDataInDatabase = 0
+                }
+            }
+        }
+    }
+    
     override func addWayPoints(wayPoints: [BasicToilet]) {
+
         super.addWayPoints(wayPoints: wayPoints)
-//        updateDatabase(with: wayPoints)
+        updateDatabase(with: wayPoints)
     }
     
     private func updateDatabase(with toilets :[BasicToilet]){
@@ -28,6 +76,25 @@ class ToiletDataTableViewController: ToiletTableViewViewController
         }
         printDatabaseStatistics()
     }
+    
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if let navController = (segue.destination as? UINavigationController){
+                let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
+                if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
+                    if let annotation = (sender as? MKAnnotation),annotation.title != nil{
+                        toiletInformationTableViewController.toiletName = annotation.title!
+                        
+    
+                        if let name = annotation.title{
+                            toiletInformationTableViewController.toiletName = name
+                        }
+                    }
+    //                toiletInformationTableViewController.toiletName = "asd"
+    
+    
+                }
+            }
+        }
     
     private func printDatabaseStatistics(){
         if let context = container?.viewContext{

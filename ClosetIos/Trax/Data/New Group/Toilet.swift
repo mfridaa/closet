@@ -16,7 +16,8 @@ class Toilet: NSManagedObject
         let request: NSFetchRequest<Toilet> = Toilet.fetchRequest()
         // TODO: --add longitude to search
         
-        request.predicate = NSPredicate(format: "latitude = %@", toilet.location.latitude)
+        request.predicate = NSPredicate(format: "latitude = %f AND longitude = %f", toilet.location.latitude,toilet.location.longitude)
+        print("latitude: \(toilet.location.latitude), longitude: \(toilet.location.longitude) " )
         do{
             let matches = try context.fetch(request)
             if matches.count > 0{
@@ -24,6 +25,7 @@ class Toilet: NSManagedObject
                 return matches[0]
             }
         } catch {
+            print("error")
             throw error
         }
        
@@ -34,5 +36,38 @@ class Toilet: NSManagedObject
 //        newToilet.creator = toilet.creator
         newToilet.status = toilet.status
         return newToilet
+    }
+    
+    class func findToilet(longitude: Float, latitude: Float, in context : NSManagedObjectContext) throws -> Toilet? {
+        let request: NSFetchRequest<Toilet> = Toilet.fetchRequest()
+        request.predicate = NSPredicate(format: "latitude = %f AND longitude = %f", latitude,longitude)
+        do{
+            let matches = try context.fetch(request)
+            if matches.count > 0{
+                assert(matches.count > 1, "Toilet.findOrCreateToilet -- inconsistencs")
+                return matches[0]
+            }
+        } catch {
+            print("asd")
+            throw error
+        }
+        return nil
+    }
+    
+    class func numberOfToilets(InDatabase context : NSManagedObjectContext) throws -> Int{
+        return try context.fetch(Toilet.fetchRequest()).count
+        
+    }
+    
+    class func allToilets(inDatabase context : NSManagedObjectContext) throws -> [BasicToilet]{
+        let request : NSFetchRequest<Toilet> = Toilet.fetchRequest()
+        let toilets = try context.fetch(request)
+        var resultToilets = [BasicToilet]()
+        for toilet in toilets{
+            let newToilet = BasicToilet(name: toilet.name ?? "", location: MapCoordinate(latitude: toilet.latitude, longitude: toilet.longitude), rating: toilet.rating, status: toilet.status!)
+            resultToilets.append(newToilet)
+        }
+        print("asd")
+        return resultToilets
     }
 }

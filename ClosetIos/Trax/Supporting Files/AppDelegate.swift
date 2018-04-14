@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        getToilets()
         // Override point for customization after application launch.
         return true
     }
@@ -35,12 +36,96 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+//        getToilets()
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         self.saveContext()
+    }
+    
+    public var userId: Int = 0
+    
+    
+    private var timeStamp: Date{
+        return getTimeStamp()
+    }
+    
+    private func getTimeStamp() -> Date {
+        let defaults = UserDefaults.standard
+        if let stamp = defaults.string(forKey: "stamp") {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss xx"
+
+            guard let date = dateFormatter.date(from: stamp) else {
+                fatalError("ERROR: Date conversion failed due to mismatched format.")
+            }
+            return date
+        }
+        let date = Date.init()
+        defaults.set(date.description, forKey: "stamp")
+        return date
+    }
+    
+    private var databaseIsFresh : Bool{
+        return timeStamp.addingTimeInterval(90) > Date.init()
+    }
+    
+    private func refreshTimeStamp(){
+        let date = Date.init()
+        UserDefaults.standard.set(date.description, forKey: "stamp")
+    }
+    
+    private func getToilets(){
+       
+        print(timeStamp)
+        
+        if let url = URL(string : URLStorage.getToilets), !databaseIsFresh{
+            print("not fresh")
+            URLSession.shared.dataTask(with: url) { data, response, err in
+                if let data = data{
+                    do{
+                        
+                        let newToilets = try JSONDecoder().decode([BasicToilet].self, from: data)
+                        self.persistentContainer.performBackgroundTask{ contex in
+                            for toiletInfo in newToilets{
+                                _ = try? Toilet.findOrCreateToilet(matching: toiletInfo, in: contex)
+                            }
+                            do{
+                                try contex.save()
+                                self.refreshTimeStamp()
+                            }catch{
+                                print("error")
+                            }
+                            
+                            
+                        }
+                     
+                    }catch let jsonErr{
+                        print("Error serializing json:" ,jsonErr)
+                    }
+                }
+                else{
+                    print("error")
+                }
+                }.resume()
+        }
+        persistentContainer.performBackgroundTask{ contex in
+            do{
+                let number = try Toilet.numberOfToilets(InDatabase: contex)
+                DispatchQueue.main.async {
+                    print("elements in database: \(number)")
+                }
+                
+            }
+            catch{
+                DispatchQueue.main.async {
+                    print(0)
+                }
+            }
+        }
+        
     }
     
     // MARK: - Core Data stack
@@ -52,7 +137,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        let container = NSPersistentContainer(name: "Toilets")
+        
+        
+        let container = NSPersistentContainer(name: "ToiletData")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
