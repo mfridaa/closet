@@ -12,21 +12,20 @@ import MapKit
 
 struct BasicToilet:Decodable,Encodable {
     let name: String
-    let latitudeAndLongitude: MapCoordinate
+    let location: MapCoordinate
     let rating: Float
     let status: String
-    let ratings:[Float]
     
     public func MKPAnnotation()->MKPointAnnotation{
         let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(exactly: latitudeAndLongitude.latitude)!, longitude: CLLocationDegrees(exactly: latitudeAndLongitude.longitude)!)
+        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(exactly: location.latitude)!, longitude: CLLocationDegrees(exactly: location.longitude)!)
         annotation.title = name
         annotation.subtitle = status
         return annotation
     }
     
     public func PostForm()->NameAndLatitudeAndLongitude{
-        return NameAndLatitudeAndLongitude(name: name, latitude: latitudeAndLongitude.latitude, longitude: latitudeAndLongitude.longitude)
+        return NameAndLatitudeAndLongitude(name: name, latitude: location.latitude, longitude: location.longitude)
     }
     
 }

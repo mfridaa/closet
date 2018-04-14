@@ -7,9 +7,9 @@
 //
 
 struct URLStorage{
-    private static let ServerURL = "http://10.222.116.166:8080/"
+    private static let ServerURL = "http://188.6.28.33:80/"
     
-    public static let getToilets:String = URLStorage.ServerURL + "toilet"
+    public static let getToilets:String = URLStorage.ServerURL + "toilet/all"
     public static let addToilet:String = URLStorage.ServerURL + "toilet/add"
 
 

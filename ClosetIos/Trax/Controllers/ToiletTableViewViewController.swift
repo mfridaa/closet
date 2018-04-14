@@ -10,7 +10,9 @@ import UIKit
 import MapKit
 import CoreLocation
 //CLLocationManagerDelegate
-class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate {
+class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate {
+    let creator:Int16 = 1111
+    
     
     struct Constans{
         public static let ShowDetailsSegue = "Show details"
@@ -43,10 +45,12 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
         if let navController = (segue.destination as? UINavigationController){
             let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
             if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
-                print(sender!)
-//                if let annotation = (sender as? MKAnnotation){
-//                    print(annotation.title)
-//                }
+                if let annotation = (sender as? MKAnnotation),annotation.title != nil{
+                    toiletInformationTableViewController.toiletName = annotation.title!
+                    if let rating = (annotation.subtitle! as? Float){
+                        toiletInformationTableViewController.ratingValue = rating
+                    }
+                }
 //                toiletInformationTableViewController.toiletName = "asd"
                 
                 
@@ -63,13 +67,13 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
         if sender.state == .began{
             let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
             let ratings = [Float]()
-            let toilet = BasicToilet(name: "newToilet", latitudeAndLongitude: MapCoordinate(latitude: Float(coordinate.latitude), longitude: Float(coordinate.longitude)), rating: 0, status: "", ratings: ratings)
-            mapView.addAnnotation(toilet.MKPAnnotation())
+//            let toilet = BasicToilet(name: "newToilet", location: MapCoordinate(latitude: Float(coordinate.latitude), longitude: Float(coordinate.longitude)), rating: 0, status: "", ratings: ratings,creator: creator)
+//            mapView.addAnnotation(toilet.MKPAnnotation())
 //            postNewToilet(of: toilet)
             
         }
     }
-    private func addWayPoints(wayPoints : [BasicToilet]){
+    func addWayPoints(wayPoints : [BasicToilet]){
 
         mapView?.addAnnotations(wayPoints.map({$0.MKPAnnotation()}))
         mapView?.showAnnotations(wayPoints.map({$0.MKPAnnotation()}), animated: true)
@@ -89,31 +93,31 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
 //
 //            return nil
 //        }
-        
+
         var annotationView: MKAnnotationView! = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.AnnotationViewReuseIdentifier)
         if annotation is MKUserLocation {
             let pin = mapView.view(for: annotation) as? MKPinAnnotationView ?? MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
             pin.pinTintColor = UIColor.purple
             pin.image! = #imageLiteral(resourceName: "CleanToilet")
             return pin
-            
+
         }
-        
+
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
             annotationView.canShowCallout = true
-            
+
         } else {
             annotationView.annotation = annotation
-            
+
         }
         //MAKR: Button for segue to more detail
         let detailButton = UIButton.init(type: UIButtonType.detailDisclosure)
         detailButton.setImage(#imageLiteral(resourceName: "CleanToilet"), for: .focused)
         detailButton.isHidden = false
         annotationView.image! = #imageLiteral(resourceName: "CleanToilet")
-        
-        
+
+
         annotationView.rightCalloutAccessoryView = detailButton
         annotationView.detailCalloutAccessoryView = nil
         return annotationView
@@ -122,7 +126,7 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if let button = (control as? UIButton),button.buttonType == UIButtonType.detailDisclosure  {
             mapView.deselectAnnotation(view.annotation, animated: false)
-            performSegue(withIdentifier: "Show details", sender: view)
+            performSegue(withIdentifier: "Show details", sender: view.annotation)
         }
     }
     
@@ -150,11 +154,12 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
         manager.requestAlwaysAuthorization()
         manager.startUpdatingLocation()
         // Do any additional setup after loading the view, typically from a nib.
-        toilets = [BasicToilet]()
-        toilets!.append(BasicToilet(name: "Corvinus", latitudeAndLongitude: MapCoordinate(latitude: 47.485715, longitude: 19.058456), rating: 0, status: "Opened", ratings: []))
-        toilets!.append(BasicToilet(name: "ELTE", latitudeAndLongitude: MapCoordinate(latitude: 47.474606, longitude: 19.062104), rating: 0, status: "Opened", ratings: []))
-        toilets!.append(BasicToilet(name: "WestEnd", latitudeAndLongitude: MapCoordinate(latitude: 47.514128 ,longitude: 19.059922), rating: 0, status: "Opened", ratings: []))
-//         getToilets()
+        var newToilets = [BasicToilet]()
+//        newToilets.append(BasicToilet(name: "Corvinus", latitudeAndLongitude: MapCoordinate(latitude: 47.485715, longitude: 19.058456), rating: 0, status: "Opened", ratings: [],creator: creator))
+//        newToilets.append(BasicToilet(name: "ELTE", latitudeAndLongitude: MapCoordinate(latitude: 47.474606, longitude: 19.062104), rating: 0, status: "Opened", ratings: [],creator: creator))
+//        newToilets.append(BasicToilet(name: "WestEnd", latitudeAndLongitude: MapCoordinate(latitude: 47.514128 ,longitude: 19.059922), rating: 0, status: "Opened", ratings: [],creator: creator))
+//        toilets = newToilets
+         getToilets()
         
     }
     
@@ -183,18 +188,25 @@ class ViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelega
     private func getToilets(){
         if let url = URL(string : URLStorage.getToilets){
             processStarted()
+            print(url)
             URLSession.shared.dataTask(with: url) { data, response, err in
                 if let data = data{
                     do{
+                        
                         let newToilets = try JSONDecoder().decode([BasicToilet].self, from: data)
+                        print("ok")
                         DispatchQueue.main.async {
-                            self.dataComing.stopAnimating()
+                            self.processTerminated()
                             self.toilets = newToilets
+                            print("asd")
                             print(newToilets)
                         }
                     }catch let jsonErr{
                         print("Error serializing json:" ,jsonErr)
                     }
+                }
+                else{
+                    print("error")
                 }
                 }.resume()
         }

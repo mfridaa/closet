@@ -1,5 +1,5 @@
 //
-//  ToiletInformationsTableViewController.swift
+//  RatingTableViewController.swift
 //  Trax
 //
 //  Created by Kiss Levente on 2018. 04. 13..
@@ -8,50 +8,8 @@
 
 import UIKit
 
-class ToiletInformationsTableViewController: UITableViewController {
-    
-    
-    
-    
-    
-    @IBOutlet weak var toiletNameInput: UITextField!
-    
-    @IBOutlet weak var toiletNameLabel: UITableViewCell!
-//        {
-//        didSet{
-//            if let name = toiletName{
-//                toiletNameLabel.detailTextLabel?.text = name
-//            }
-//
-//        }
-//    }
-    
-    @IBAction func asd(_ sender: UITextField) {
-        print("bsd")
-    }
-    
-    
-    @IBAction func endEditing(_ sender: UITextField) {
-        print("asd")
-    }
-    
-    
-    
-    @IBOutlet weak var ratingLabel: UITableViewCell!{
-        didSet{
-            if let rating = ratingValue{
-                ratingLabel.detailTextLabel?.text = String(describing: rating)
-            }
-            
-        }
-    }
-    
-    
-    
-    public var toiletName: String?
-    
-    public var ratingValue: Float?
-    
+class RatingTableViewController: UITableViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -71,12 +29,12 @@ class ToiletInformationsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return 0
     }
 
     /*
