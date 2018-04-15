@@ -42,8 +42,18 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>asd</string>
+	<string>The application need information about your location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>bsd</string>
+	<string>The application need information about your location</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>closet.servehttp.com</key>
+			<string></string>
+		</dict>
+	</dict>
 </dict>
 </plist>

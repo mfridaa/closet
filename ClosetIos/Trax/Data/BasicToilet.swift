@@ -11,6 +11,7 @@ import CoreData
 import MapKit
 
 struct BasicToilet:Decodable,Encodable {
+    let id: Int
     let name: String
     let location: MapCoordinate
     let rating: Float

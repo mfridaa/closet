@@ -17,7 +17,6 @@ class Toilet: NSManagedObject
         // TODO: --add longitude to search
         
         request.predicate = NSPredicate(format: "latitude = %f AND longitude = %f", toilet.location.latitude,toilet.location.longitude)
-        print("latitude: \(toilet.location.latitude), longitude: \(toilet.location.longitude) " )
         do{
             let matches = try context.fetch(request)
             if matches.count > 0{
@@ -33,6 +32,7 @@ class Toilet: NSManagedObject
         newToilet.latitude = toilet.location.latitude
         newToilet.longitude = toilet.location.longitude
         newToilet.name = toilet.name
+        newToilet.id = Int16(toilet.id)
 //        newToilet.creator = toilet.creator
         newToilet.status = toilet.status
         return newToilet
@@ -44,11 +44,11 @@ class Toilet: NSManagedObject
         do{
             let matches = try context.fetch(request)
             if matches.count > 0{
-                assert(matches.count > 1, "Toilet.findOrCreateToilet -- inconsistencs")
+//                assert(matches.count > 1, "Toilet.findOrCreateToilet -- inconsistencs")
                 return matches[0]
             }
         } catch {
-            print("asd")
+            print("errrror")
             throw error
         }
         return nil
@@ -64,7 +64,7 @@ class Toilet: NSManagedObject
         let toilets = try context.fetch(request)
         var resultToilets = [BasicToilet]()
         for toilet in toilets{
-            let newToilet = BasicToilet(name: toilet.name ?? "", location: MapCoordinate(latitude: toilet.latitude, longitude: toilet.longitude), rating: toilet.rating, status: toilet.status!)
+            let newToilet = BasicToilet(id:Int(toilet.id),name: toilet.name ?? "", location: MapCoordinate(latitude: toilet.latitude, longitude: toilet.longitude), rating: toilet.rating, status: toilet.status!)
             resultToilets.append(newToilet)
         }
         print("asd")

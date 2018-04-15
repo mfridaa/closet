@@ -7,10 +7,13 @@
 //
 
 struct URLStorage{
-    private static let ServerURL = "http://188.6.28.33:80/"
+    private static let ServerURL = "http://closet.servehttp.com/"
     
     public static let getToilets:String = URLStorage.ServerURL + "toilet/all"
     public static let addToilet:String = URLStorage.ServerURL + "toilet/add"
+    public static func getRating(forToiletId id :Int) -> String{
+        return URLStorage.ServerURL + "toilet/rating/\(id)"
+    }
 
 
     

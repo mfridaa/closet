@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        getToilets()
+//        getToilets()
+        
         // Override point for customization after application launch.
         return true
     }
@@ -48,11 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     public var userId: Int = 0
     
     
-    private var timeStamp: Date{
-        return getTimeStamp()
-    }
-    
-    private func getTimeStamp() -> Date {
+ 
+    public func getTimeStamp() -> Date? {
         let defaults = UserDefaults.standard
         if let stamp = defaults.string(forKey: "stamp") {
             let dateFormatter = DateFormatter()
@@ -65,68 +63,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         let date = Date.init()
         defaults.set(date.description, forKey: "stamp")
-        return date
+        return nil
     }
     
-    private var databaseIsFresh : Bool{
-        return timeStamp.addingTimeInterval(90) > Date.init()
-    }
+ 
     
-    private func refreshTimeStamp(){
+    public func refreshTimeStamp(){
         let date = Date.init()
         UserDefaults.standard.set(date.description, forKey: "stamp")
     }
     
-    private func getToilets(){
-       
-        print(timeStamp)
-        
-        if let url = URL(string : URLStorage.getToilets), !databaseIsFresh{
-            print("not fresh")
-            URLSession.shared.dataTask(with: url) { data, response, err in
-                if let data = data{
-                    do{
-                        
-                        let newToilets = try JSONDecoder().decode([BasicToilet].self, from: data)
-                        self.persistentContainer.performBackgroundTask{ contex in
-                            for toiletInfo in newToilets{
-                                _ = try? Toilet.findOrCreateToilet(matching: toiletInfo, in: contex)
-                            }
-                            do{
-                                try contex.save()
-                                self.refreshTimeStamp()
-                            }catch{
-                                print("error")
-                            }
-                            
-                            
-                        }
-                     
-                    }catch let jsonErr{
-                        print("Error serializing json:" ,jsonErr)
-                    }
-                }
-                else{
-                    print("error")
-                }
-                }.resume()
-        }
-        persistentContainer.performBackgroundTask{ contex in
-            do{
-                let number = try Toilet.numberOfToilets(InDatabase: contex)
-                DispatchQueue.main.async {
-                    print("elements in database: \(number)")
-                }
-                
-            }
-            catch{
-                DispatchQueue.main.async {
-                    print(0)
-                }
-            }
-        }
-        
-    }
+    
+    
+   
     
     // MARK: - Core Data stack
     

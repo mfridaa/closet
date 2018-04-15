@@ -13,44 +13,38 @@ class ToiletInformationsTableViewController: UITableViewController {
     
     
     
-    
-    @IBOutlet weak var toiletNameInput: UITextField!
-    
-    @IBOutlet weak var toiletNameLabel: UITableViewCell!
-//        {
-//        didSet{
-//            if let name = toiletName{
-//                toiletNameLabel.detailTextLabel?.text = name
-//            }
-//
-//        }
-//    }
-    
-    @IBAction func asd(_ sender: UITextField) {
-        print("bsd")
-    }
-    
-    
-    @IBAction func endEditing(_ sender: UITextField) {
-        print("asd")
-    }
-    
-    
-    
-    @IBOutlet weak var ratingLabel: UITableViewCell!{
+    @IBOutlet weak var nameLabel: UILabel!{
         didSet{
-            if let rating = ratingValue{
-                ratingLabel.detailTextLabel?.text = String(describing: rating)
-            }
-            
+            nameLabel.text = toiletName
         }
     }
     
+    @IBOutlet weak var ratingLabel: UILabel!{
+        didSet{
+            ratingLabel.text = String(format:"%.02f", ratingValue!)
+        }
+    }
     
+    @IBOutlet weak var statusLabel: UILabel!{
+        didSet{
+            statusLabel.text = status
+        }
+    }
     
-    public var toiletName: String?
+    @IBOutlet weak var newRatingValue: UISlider!
+    
+    @IBAction func rateHappened(_ sender: UIButton) {
+        
+    }
+
+    
+
+    
+    public var toiletName:String?
     
     public var ratingValue: Float?
+    
+    public var status:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +70,7 @@ class ToiletInformationsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return 5
     }
 
     /*

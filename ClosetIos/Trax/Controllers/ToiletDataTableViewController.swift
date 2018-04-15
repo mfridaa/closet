@@ -12,14 +12,26 @@ import MapKit
 
 class ToiletDataTableViewController: ToiletTableViewViewController
 {
-    var container: NSPersistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+    public var container: NSPersistentContainer!
+        
 //    {
 //        didSet{
 //            print("asd")
 //            countDataInDatabase()
 //        }
 //    }
-
+//    @IBOutlet weak var toiletTabBarButton: UITabBarItem!{
+//        didSet{
+//            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(showUserLocation()))
+//            tapRecognizer.numberOfTapsRequired = 1
+//            toiletTabBarButton.addGestureRecognizer(tapRecognizer)
+//        }
+//    }
+//    @objc
+//    func showUserLocation(){
+//        print("s")
+//    }
+    
     override func viewWillAppear(_ animated: Bool) {
         
         container.performBackgroundTask{ contex in
@@ -68,24 +80,42 @@ class ToiletDataTableViewController: ToiletTableViewViewController
 //        printDatabaseStatistics()
     }
     
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if let navController = (segue.destination as? UINavigationController){
-                let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
-                if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
-                    if let annotation = (sender as? MKAnnotation),annotation.title != nil{
-                        toiletInformationTableViewController.toiletName = annotation.title!
-                        
-    
-                        if let name = annotation.title{
-                            toiletInformationTableViewController.toiletName = name
-                        }
-                    }
-    //                toiletInformationTableViewController.toiletName = "asd"
-    
-    
-                }
-            }
-        }
+//        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//            if let navController = (segue.destination as? UINavigationController){
+//                let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
+//                if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
+//                    if let annotation = (sender as? MKAnnotation),annotation.title != nil{
+////                        container.performBackgroundTask{ contex in
+////                            do{
+////                                let toilets =  try Toilet.allToilets(inDatabase: contex)
+////                                print(toilets)
+////                            }catch {
+////                                print("error")
+////                            }
+//////                            if let toilet = try! Toilet.findToilet(longitude: Float(annotation.coordinate.longitude), latitude: Float(annotation.coordinate.latitude), in: contex){
+//////                                if let name = toilet.name{
+//////                                    toiletInformationTableViewController.toiletName = name
+//////                                }
+//////
+//////                                    toiletInformationTableViewController.ratingValue = toilet.rating
+//////
+//////                            }
+////
+////
+////                        }
+//                        
+//                        
+//    
+//                        if let name = annotation.title{
+//                            toiletInformationTableViewController.toiletName = name
+//                        }
+//                    }
+//    //                toiletInformationTableViewController.toiletName = "asd"
+//    
+//    
+//                }
+//            }
+//        }
 }
 //    private func printDatabaseStatistics(){
 //        if let context = container?.viewContext{

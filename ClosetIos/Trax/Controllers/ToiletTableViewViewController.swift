@@ -91,22 +91,15 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
     
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        if annotation.title! == "My Location"{
-//
-//            return nil
-//        }
+        if annotation.title! == "My Location"{
 
-        var annotationView: MKAnnotationView! = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.AnnotationViewReuseIdentifier)
-        if annotation is MKUserLocation {
-            let pin = mapView.view(for: annotation) as? MKPinAnnotationView ?? MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
-            pin.pinTintColor = UIColor.purple
-            pin.image! = #imageLiteral(resourceName: "CleanToilet")
-            return pin
-
+            return nil
         }
 
+        var annotationView: MKAnnotationView! = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.AnnotationViewReuseIdentifier)
+        
         if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
             annotationView.canShowCallout = true
 
         } else {
@@ -115,9 +108,8 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
         }
         //MAKR: Button for segue to more detail
         let detailButton = UIButton.init(type: UIButtonType.detailDisclosure)
-        detailButton.setImage(#imageLiteral(resourceName: "CleanToilet"), for: .focused)
         detailButton.isHidden = false
-        annotationView.image! = #imageLiteral(resourceName: "CleanToilet")
+        annotationView.image = #imageLiteral(resourceName: "CleanToilet")
 
 
         annotationView.rightCalloutAccessoryView = detailButton
@@ -125,52 +117,43 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
         return annotationView
     }
     
+    //MARK: -- Informations button pressed
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if let button = (control as? UIButton),button.buttonType == UIButtonType.detailDisclosure  {
             mapView.deselectAnnotation(view.annotation, animated: false)
-            parent?.performSegue(withIdentifier: "Show informations", sender: view.annotation)
-//            performSegue(withIdentifier: "Show details", sender: view.annotation)
+            if let navigationParent =  (parent as? NavigationTabBarViewController) {
+                navigationParent.performSegue(withIdentifier: "Show informations", sender: view.annotation)
+            }
         }
     }
+    
+    //Location
     
     let manager = CLLocationManager()
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[0]
 
-        let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
-
-        let myLocation: CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-        let region: MKCoordinateRegion = MKCoordinateRegionMake(myLocation, span)
-        mapView.setRegion(region, animated: true)
         
-
-
+        
+        let myLocation: CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        
+        let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
+        let region: MKCoordinateRegion = MKCoordinateRegionMake(myLocation, span)
+        
+        mapView.setRegion(region, animated: true)
+        mapView.showsUserLocation = true
     }
     
+   
     override func viewDidLoad() {
         super.viewDidLoad()
     
         manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestAlwaysAuthorization()
+        manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.startUpdatingLocation()
-        // Do any additional setup after loading the view, typically from a nib.
-//        newToilets.append(BasicToilet(name: "Corvinus", latitudeAndLongitude: MapCoordinate(latitude: 47.485715, longitude: 19.058456), rating: 0, status: "Opened", ratings: [],creator: creator))
-//        newToilets.append(BasicToilet(name: "ELTE", latitudeAndLongitude: MapCoordinate(latitude: 47.474606, longitude: 19.062104), rating: 0, status: "Opened", ratings: [],creator: creator))
-//        newToilets.append(BasicToilet(name: "WestEnd", latitudeAndLongitude: MapCoordinate(latitude: 47.514128 ,longitude: 19.059922), rating: 0, status: "Opened", ratings: [],creator: creator))
-//        toilets = newToilets
         
-    }
-    
-    
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        //print(mapView.region)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //MARK: spinningBar status
@@ -185,24 +168,6 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
         mapView.isHidden = false
     }
     
-    //MARK: get toilets from server
-    
-    
-
-//
-//    private func postNewToilet(of toilet:BasicToilet){
-//        if let url = URL(string: URLStorage.addToilet){
-//            var request = URLRequest(url: url)
-//            request.httpMethod = "POST"
-//            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//            if let jsonBody = try? JSONEncoder().encode(toilet.PostForm()){
-//                request.httpBody = jsonBody
-//                print(jsonBody.description)
-//                URLSession.shared.dataTask(with: request) { data, response, err in
-//                    }.resume()
-//            }
-//        }
-//    }
 
 }
 
