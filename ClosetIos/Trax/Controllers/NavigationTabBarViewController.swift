@@ -135,6 +135,7 @@ class NavigationTabBarViewController: UITabBarController {
                                 }
                                 do{
                                     try contex.save()
+                                    
                                     appdelegate.refreshTimeStamp()
                                 }catch{
                                     print("error")

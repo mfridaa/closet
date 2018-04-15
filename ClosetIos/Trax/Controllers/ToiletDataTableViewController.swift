@@ -36,7 +36,10 @@ class ToiletDataTableViewController: ToiletTableViewViewController
         
         container.performBackgroundTask{ contex in
             if let toilets = try? Toilet.allToilets(inDatabase: contex){
-                self.addWayPoints(wayPoints: toilets)
+                DispatchQueue.main.async {
+                    self.addWayPoints(wayPoints: toilets)
+                }
+                
             }
             print(try! Toilet.allToilets(inDatabase: contex))
 //            print( try! Toilet.allToilets(inDatabase: contex))
