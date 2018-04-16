@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_toilets"
+        android:enabled="true"
+        android:icon="@drawable/cleanshinytoilet"
+        android:title="@string/text_toilets"
+        app:showAsAction="always|withText"
+        android:checkable="true"/>
+    <item
+        android:id="@+id/action_recents"
+        android:enabled="true"
+        android:icon="@drawable/ic_watch_later_black_24dp"
+        android:title="@string/text_recents"
+        app:showAsAction="ifRoom|withText"
+        android:checkable="true"/>
+    <item
+        android:id="@+id/action_most_viewed"
+        android:enabled="true"
+        android:icon="@drawable/ic_list_black_24dp"
+        android:title="@string/text_most_viewed"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/action_search"
+        android:enabled="true"
+        android:icon="@drawable/places_ic_search"
+        android:title="@string/text_search"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/action_more"
+        android:enabled="true"
+        android:icon="@drawable/ic_more_horiz_black_24dp"
+        android:title="@string/text_more"
+        app:showAsAction="ifRoom|withText" />
 </menu>

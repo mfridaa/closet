@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">closet</string>
     <string name="title_activity_maps">Map</string>
+    <string name="text_toilets">Toilets</string>
+    <string name="text_recents">Recents</string>
+    <string name="text_most_viewed">Most Viewed</string>
+    <string name="text_search">Search</string>
+    <string name="search_hint">Hint</string>
+    <string name="text_more">More</string>
+    <string name="app_label">Search</string>
+    <string name="toilet_name">Name</string>
+    <string name="toilet_rating">Rating</string>
+    <string name="toilet_status">Status</string>
 </resources>

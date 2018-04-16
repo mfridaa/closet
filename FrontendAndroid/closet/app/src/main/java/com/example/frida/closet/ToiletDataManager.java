@@ -27,15 +27,15 @@ import android.widget.Toast;
 import android.app.Activity;
 
 public class ToiletDataManager {
-    private static String res;
+    private static String result;
 
     public ToiletDataManager(){
-        new HttpAsyncTask().execute("http://192.168.0.20:8080/toilet");
+        new HttpAsyncTask().execute("http://188.6.28.33:80/toilet/all");
     }
 
     public static String GET(String url) {
         InputStream inputStream = null;
-        String result = "";
+        String res = "";
         try {
             // create HttpClient
             HttpClient httpclient = new DefaultHttpClient();
@@ -45,45 +45,37 @@ public class ToiletDataManager {
             inputStream = httpResponse.getEntity().getContent();
             // convert inputstream to string
             if (inputStream != null)
-                result = convertInputStreamToString(inputStream);
+                res = convertInputStreamToString(inputStream);
             else
-                return result;
+                return res;
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
-        Log.w("Bla", result);
-        return result;
+        return res;
     }
 
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        res = "";
+        result = "";
+        String res;
 
         while ((res = bufferedReader.readLine()) != null)
-            res += res;
+            result += res;
 
-        JSONObject json = null; // convert String to JSONObject
+        //Log.d("result %s", result);
+        JSONArray json = null;
         try {
-            json = new JSONObject(res);
-            res = json.toString();
-            //articles.getJSONObject(0).getString("url") // return an article url
+            json = new JSONArray(result);
+            //result = Integer.toString(json.length());
+            //line = json.get(1).getString("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         inputStream.close();
-        return res;
+        return result;
     }
-
-    /*public boolean isConnected() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-            return true;
-        else
-            return false;
-    }*/
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         @Override
@@ -98,6 +90,7 @@ public class ToiletDataManager {
     }
 
     public String getResult(){
-        return this.res;
+        //Log.d("result %s", this.result);
+        return result;
     }
 }
