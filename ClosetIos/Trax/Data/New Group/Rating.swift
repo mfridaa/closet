@@ -37,7 +37,10 @@ class Rating: NSManagedObject {
         newRating.comment = rating.description
         newRating.ratingNum = Int16(rating.ratingNum)
         newRating.rater = rating.rater
-//        newRating.toilet = toilet
+        if let toilet = try! Toilet.findToilet(withId: Int16(rating.id), in: context){
+            newRating.toilet = toilet
+        }
+        
         //        newToilet.creator = toilet.creator
         return newRating
     }

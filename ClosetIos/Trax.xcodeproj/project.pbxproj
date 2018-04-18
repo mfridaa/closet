@@ -13,16 +13,21 @@
 		3D47B302207FF28900E51AB7 /* SearchBarDisplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */; };
 		3D5D4A8F2080FDC6006835EB /* ToiletData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D4A8D2080FDC6006835EB /* ToiletData.xcdatamodeld */; };
 		3D5D4A9420810243006835EB /* Toilet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D4A9320810243006835EB /* Toilet.swift */; };
-		3D5D4A96208103BA006835EB /* ToiletDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D4A95208103BA006835EB /* ToiletDataTableViewController.swift */; };
+		3D5D4A96208103BA006835EB /* ToiletDataMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D4A95208103BA006835EB /* ToiletDataMapViewController.swift */; };
 		3D5D4A98208111BB006835EB /* RatingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D4A97208111BB006835EB /* RatingTableViewController.swift */; };
 		3D75A8FC204740F600C47FFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D75A8FB204740F600C47FFA /* AppDelegate.swift */; };
-		3D75A8FE204740F600C47FFA /* ToiletTableViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D75A8FD204740F600C47FFA /* ToiletTableViewViewController.swift */; };
+		3D75A8FE204740F600C47FFA /* ToiletMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D75A8FD204740F600C47FFA /* ToiletMapViewController.swift */; };
 		3D75A901204740F600C47FFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D75A8FF204740F600C47FFA /* Main.storyboard */; };
 		3D75A903204740F600C47FFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D75A902204740F600C47FFA /* Assets.xcassets */; };
 		3D75A906204740F600C47FFA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D75A904204740F600C47FFA /* LaunchScreen.storyboard */; };
 		3D75A90F2048648200C47FFA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D75A90E2048648200C47FFA /* CoreLocation.framework */; };
 		3D841CA1207D74780068407A /* Budapest.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 3D841CA0207D74780068407A /* Budapest.gpx */; };
+		3DC6401F2085580A0025DCC2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC6401E2085580A0025DCC2 /* ViewController.swift */; };
+		3DC64021208559B30025DCC2 /* DataLoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC64020208559B30025DCC2 /* DataLoaderViewController.swift */; };
 		3DD96C4A2080204E008F68AD /* ToiletInformationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */; };
+		3DDB01212085124900F2225F /* RatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDB01202085124900F2225F /* RatingTableViewCell.swift */; };
+		3DDB01232085163000F2225F /* FetchedResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDB01222085163000F2225F /* FetchedResultsTableViewController.swift */; };
+		3DDB01252085163900F2225F /* UITableViewDataSource+NSFetchedResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDB01242085163900F2225F /* UITableViewDataSource+NSFetchedResultsController.swift */; };
 		3DF27C49204975E300B99F5A /* BasicToilet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF27C48204975E300B99F5A /* BasicToilet.swift */; };
 		3DF5B01A207919B80046C107 /* NameAndLatitudeAndLongitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF5B019207919B80046C107 /* NameAndLatitudeAndLongitude.swift */; };
 		3DF5B01C207923E60046C107 /* URLStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF5B01B207923E60046C107 /* URLStorage.swift */; };
@@ -35,18 +40,23 @@
 		3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarDisplayController.swift; sourceTree = "<group>"; };
 		3D5D4A8E2080FDC6006835EB /* ToiletData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToiletData.xcdatamodel; sourceTree = "<group>"; };
 		3D5D4A9320810243006835EB /* Toilet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toilet.swift; sourceTree = "<group>"; };
-		3D5D4A95208103BA006835EB /* ToiletDataTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletDataTableViewController.swift; sourceTree = "<group>"; };
+		3D5D4A95208103BA006835EB /* ToiletDataMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletDataMapViewController.swift; sourceTree = "<group>"; };
 		3D5D4A97208111BB006835EB /* RatingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingTableViewController.swift; sourceTree = "<group>"; };
 		3D75A8F8204740F600C47FFA /* Trax.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trax.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D75A8FB204740F600C47FFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3D75A8FD204740F600C47FFA /* ToiletTableViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletTableViewViewController.swift; sourceTree = "<group>"; };
+		3D75A8FD204740F600C47FFA /* ToiletMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletMapViewController.swift; sourceTree = "<group>"; };
 		3D75A900204740F600C47FFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3D75A902204740F600C47FFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D75A905204740F600C47FFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D75A907204740F600C47FFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D75A90E2048648200C47FFA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3D841CA0207D74780068407A /* Budapest.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Budapest.gpx; sourceTree = "<group>"; };
+		3DC6401E2085580A0025DCC2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3DC64020208559B30025DCC2 /* DataLoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoaderViewController.swift; sourceTree = "<group>"; };
 		3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletInformationsTableViewController.swift; sourceTree = "<group>"; };
+		3DDB01202085124900F2225F /* RatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingTableViewCell.swift; sourceTree = "<group>"; };
+		3DDB01222085163000F2225F /* FetchedResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsTableViewController.swift; sourceTree = "<group>"; };
+		3DDB01242085163900F2225F /* UITableViewDataSource+NSFetchedResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewDataSource+NSFetchedResultsController.swift"; sourceTree = "<group>"; };
 		3DF27C48204975E300B99F5A /* BasicToilet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicToilet.swift; sourceTree = "<group>"; };
 		3DF5B019207919B80046C107 /* NameAndLatitudeAndLongitude.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameAndLatitudeAndLongitude.swift; sourceTree = "<group>"; };
 		3DF5B01B207923E60046C107 /* URLStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLStorage.swift; sourceTree = "<group>"; };
@@ -68,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				3D5D4A8D2080FDC6006835EB /* ToiletData.xcdatamodeld */,
+				3DDB01222085163000F2225F /* FetchedResultsTableViewController.swift */,
+				3DDB01242085163900F2225F /* UITableViewDataSource+NSFetchedResultsController.swift */,
 				3D5D4A9320810243006835EB /* Toilet.swift */,
 				3D255CEF2083C4D7005CA8C9 /* Rating.swift */,
 			);
@@ -99,6 +111,7 @@
 				3DD96C4820800573008F68AD /* Data */,
 				3DD96C4720800553008F68AD /* Controllers */,
 				3D75A8FF204740F600C47FFA /* Main.storyboard */,
+				3DC64020208559B30025DCC2 /* DataLoaderViewController.swift */,
 				3D75A907204740F600C47FFA /* Info.plist */,
 			);
 			path = Trax;
@@ -118,9 +131,10 @@
 				3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */,
 				3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */,
 				3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */,
-				3D75A8FD204740F600C47FFA /* ToiletTableViewViewController.swift */,
-				3D5D4A95208103BA006835EB /* ToiletDataTableViewController.swift */,
+				3D75A8FD204740F600C47FFA /* ToiletMapViewController.swift */,
+				3D5D4A95208103BA006835EB /* ToiletDataMapViewController.swift */,
 				3D5D4A97208111BB006835EB /* RatingTableViewController.swift */,
+				3DDB01202085124900F2225F /* RatingTableViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -143,6 +157,7 @@
 				3D75A8FB204740F600C47FFA /* AppDelegate.swift */,
 				3D75A902204740F600C47FFA /* Assets.xcassets */,
 				3D75A904204740F600C47FFA /* LaunchScreen.storyboard */,
+				3DC6401E2085580A0025DCC2 /* ViewController.swift */,
 				3D841CA0207D74780068407A /* Budapest.gpx */,
 			);
 			path = "Supporting Files";
@@ -221,19 +236,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DC64021208559B30025DCC2 /* DataLoaderViewController.swift in Sources */,
 				3DD96C4A2080204E008F68AD /* ToiletInformationsTableViewController.swift in Sources */,
 				3D47B302207FF28900E51AB7 /* SearchBarDisplayController.swift in Sources */,
+				3DDB01212085124900F2225F /* RatingTableViewCell.swift in Sources */,
 				3D47B2FC207F84A300E51AB7 /* NavigationTabBarViewController.swift in Sources */,
-				3D75A8FE204740F600C47FFA /* ToiletTableViewViewController.swift in Sources */,
+				3D75A8FE204740F600C47FFA /* ToiletMapViewController.swift in Sources */,
 				3D75A8FC204740F600C47FFA /* AppDelegate.swift in Sources */,
 				3D255CF22083C75A005CA8C9 /* BasicRating.swift in Sources */,
 				3DF5B01C207923E60046C107 /* URLStorage.swift in Sources */,
 				3D5D4A98208111BB006835EB /* RatingTableViewController.swift in Sources */,
 				3D5D4A9420810243006835EB /* Toilet.swift in Sources */,
-				3D5D4A96208103BA006835EB /* ToiletDataTableViewController.swift in Sources */,
+				3D5D4A96208103BA006835EB /* ToiletDataMapViewController.swift in Sources */,
+				3DDB01252085163900F2225F /* UITableViewDataSource+NSFetchedResultsController.swift in Sources */,
+				3DC6401F2085580A0025DCC2 /* ViewController.swift in Sources */,
 				3DF27C49204975E300B99F5A /* BasicToilet.swift in Sources */,
 				3D5D4A8F2080FDC6006835EB /* ToiletData.xcdatamodeld in Sources */,
 				3DF5B01A207919B80046C107 /* NameAndLatitudeAndLongitude.swift in Sources */,
+				3DDB01232085163000F2225F /* FetchedResultsTableViewController.swift in Sources */,
 				3D255CF02083C4D7005CA8C9 /* Rating.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

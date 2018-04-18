@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import MapKit
 
 class Toilet: NSManagedObject
 {
@@ -45,6 +46,38 @@ class Toilet: NSManagedObject
             let matches = try context.fetch(request)
             if matches.count > 0{
 //                assert(matches.count > 1, "Toilet.findOrCreateToilet -- inconsistencs")
+                return matches[0]
+            }
+        } catch {
+            print("errrror")
+            throw error
+        }
+        return nil
+    }
+    class func findOrCreateToilet(matching toilet: Toilet, in context : NSManagedObjectContext) throws -> MKAnnotation?
+    {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(exactly: toilet.latitude)!, longitude: CLLocationDegrees(exactly: toilet.longitude)!)
+        annotation.title = toilet.name
+        annotation.subtitle = toilet.status
+        do{
+            _ = try findOrCreateToilet(matching: toilet, in: context)
+        } catch {
+            throw error
+        }
+
+        return annotation
+        
+        
+    }
+    
+    class func findToilet(withId id : Int16, in context : NSManagedObjectContext) throws -> Toilet? {
+        let request: NSFetchRequest<Toilet> = Toilet.fetchRequest()
+        request.predicate = NSPredicate(format: "id = %f", id)
+        do{
+            let matches = try context.fetch(request)
+            if matches.count > 0{
+                //                assert(matches.count > 1, "Toilet.findOrCreateToilet -- inconsistencs")
                 return matches[0]
             }
         } catch {

@@ -50,10 +50,13 @@ class NavigationTabBarViewController: UITabBarController {
             if let toiletInformationsViewController = navigationController.childViewControllers[0] as? ToiletInformationsTableViewController {
                 if let annotationSender = sender as? MKAnnotation {
                     container.performBackgroundTask{ context in
+                        
                         if let toilet = try! Toilet.findToilet(longitude: Float(annotationSender.coordinate.longitude), latitude:  Float(annotationSender.coordinate.latitude), in: context){
                             toiletInformationsViewController.status = toilet.status
                             toiletInformationsViewController.toiletName = toilet.name
                             toiletInformationsViewController.ratingValue = toilet.rating
+                            toiletInformationsViewController.toiletId = toilet.id
+//                            toiletInformationsViewController.showedToilet = toilet
                             self.getRating(forToilet: toilet)
                         }
                     }
@@ -86,12 +89,15 @@ class NavigationTabBarViewController: UITabBarController {
                     do{
                         let newRatings = try JSONDecoder().decode([BasicRating].self, from: data)
                         self.container.performBackgroundTask{ contex in
+                            let ownerToilet  = try! Toilet.findToilet(withId: toilet.id, in: contex)
                             //TODO: do something with data
-//                            if let ratingCount = try? Rating.numberOfToilets(InDatabase: contex){
-//                                if ratingCount < newRatings.count{
+                            if let ratingCount = try? Rating.numberOfToilets(InDatabase: contex){
+                                if ratingCount < newRatings.count{
                                     for rating in newRatings{
-                                        _ = try! Rating.findOrCreateRating(matching: rating, in: contex,forToilet: toilet)
-                                        print("asd")
+                                        let rating = try! Rating.findOrCreateRating(matching: rating, in: contex,forToilet: toilet)
+                                        ownerToilet!.addToRatings(rating)
+                                        rating.toilet = ownerToilet
+                                        print("rating added")
                                     }
                                     
                                     do{
@@ -100,8 +106,8 @@ class NavigationTabBarViewController: UITabBarController {
                                     catch{
                                         print("error during saving database")
                                     }
-//                                }
-//                            }
+                                }
+                            }
                             
                             
                         }

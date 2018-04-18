@@ -9,23 +9,24 @@
 import UIKit
 
 class ToiletInformationsTableViewController: UITableViewController {
+    var editable:Bool = false
     
-    
-    
-    
-    @IBOutlet weak var nameLabel: UILabel!{
+    @IBOutlet weak var nameLabel: UILabel!
+        {
         didSet{
             nameLabel.text = toiletName
         }
     }
     
-    @IBOutlet weak var ratingLabel: UILabel!{
+    @IBOutlet weak var ratingLabel: UILabel!
+        {
         didSet{
-            ratingLabel.text = String(format:"%.02f", ratingValue!)
+            ratingLabel.text = String(format:"%.02f", (ratingValue)!)
         }
     }
     
-    @IBOutlet weak var statusLabel: UILabel!{
+    @IBOutlet weak var statusLabel: UILabel!
+        {
         didSet{
             statusLabel.text = status
         }
@@ -36,19 +37,43 @@ class ToiletInformationsTableViewController: UITableViewController {
     @IBAction func rateHappened(_ sender: UIButton) {
         
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let ratingController = segue.destination as? RatingTableViewController{
+            let tableView = UITableView.init()
+            tableView.delegate = ratingController
+            ratingController.view = tableView
+            let container = ( UIApplication.shared.delegate as! AppDelegate ).persistentContainer
+            container.performBackgroundTask{ context in
+//                let toilet = try! Toilet.findToilet(withId: (self.toiletId)!, in: context)
+//                DispatchQueue.main.async {
+//                    print(toilet?.ratings)
+//                }
+                let toilet = try! context.fetch(Rating.fetchRequest())
+                if let ratings = toilet as? [Rating]{
+                    for rating in ratings{
+                        print(rating.toilet?.id)
+                    }
+                }
+            }
+            
+            
+        }
+    }
 
     
-
+    public var toiletId:Int16?
     
     public var toiletName:String?
-    
+
     public var ratingValue: Float?
-    
+
     public var status:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+//        nameLabel.text = showedToilet?.name!
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

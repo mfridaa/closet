@@ -10,18 +10,13 @@ import UIKit
 import MapKit
 import CoreLocation
 //CLLocationManagerDelegate
-class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate {
-    let creator:Int16 = 1111
+class ToiletMapViewController: UIViewController,MKMapViewDelegate,CLLocationManagerDelegate {
     
     
     struct Constans{
         public static let ShowDetailsSegue = "Show details"
     }
     
-    // MARK: toiletBarItem
-    @IBOutlet weak var toiletBarItem: UITabBarItem!
-    // MARK: spinningBar
-    @IBOutlet weak var dataComing: UIActivityIndicatorView!
     
     
     private struct Constants {
@@ -34,31 +29,19 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
     private var toilets:[BasicToilet]?{
         didSet{
             if let data = toilets{
-               
                 addWayPoints(wayPoints: data)
             }
             
         }
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let navController = (segue.destination as? UINavigationController){
-//            let tableViewController = navController.viewControllers.compactMap({ $0 as? ToiletInformationsTableViewController})
-//            if let toiletInformationTableViewController = tableViewController.first,tableViewController.count == 1 {
-//                if let annotation = (sender as? MKAnnotation),annotation.title != nil{
-//                    toiletInformationTableViewController.toiletName = annotation.title!
-//                    
-//                    
-//                    if let name = annotation.title{
-//                        toiletInformationTableViewController.toiletName = name
-//                    }
-//                }
-////                toiletInformationTableViewController.toiletName = "asd"
-//                
-//                
-//            }
-//        }
-//    }
+    func addWayPoints(wayPoints : [BasicToilet]){
+        
+        mapView?.addAnnotations(wayPoints.map({$0.MKPAnnotation()}))
+        mapView?.showAnnotations(wayPoints.map({$0.MKPAnnotation()}), animated: true)
+    }
+    
+
 
     
     private func clearWaypoint(){
@@ -67,19 +50,19 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
     
     @IBAction func addNewPlace(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began{
-//            let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
-//            let ratings = [Float]()
-//            let toilet = BasicToilet(name: "newToilet", location: MapCoordinate(latitude: Float(coordinate.latitude), longitude: Float(coordinate.longitude)), rating: 0, status: "", ratings: ratings,creator: creator)
-//            mapView.addAnnotation(toilet.MKPAnnotation())
+            let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
+        
+          
 //            postNewToilet(of: toilet)
             
         }
     }
-    func addWayPoints(wayPoints : [BasicToilet]){
-
-        mapView?.addAnnotations(wayPoints.map({$0.MKPAnnotation()}))
-        mapView?.showAnnotations(wayPoints.map({$0.MKPAnnotation()}), animated: true)
+    
+    private func addNewToilet(latitude:Float,longitude:Float){
+        let toilet = BasicToilet(id: -1,name: "newToilet", location: MapCoordinate(latitude: latitude, longitude: longitude), rating: 0.00, status: "")
+        mapView.addAnnotation(toilet.MKPAnnotation())
     }
+   
     
     @IBOutlet weak var mapView: MKMapView!
         {
@@ -92,7 +75,6 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation.title! == "My Location"{
-
             return nil
         }
 
@@ -155,18 +137,7 @@ class ToiletTableViewViewController: UIViewController,MKMapViewDelegate,CLLocati
         manager.startUpdatingLocation()
         
     }
-    
-    //MARK: spinningBar status
-    public func processStarted(){
-        dataComing.startAnimating()
-        mapView.isHidden = true
-    }
-    
-    public func processTerminated(with result: [BasicToilet]){
-        toilets = result
-        dataComing.stopAnimating()
-        mapView.isHidden = false
-    }
+
     
 
 }
