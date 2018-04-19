@@ -32,6 +32,10 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 		else
 			log.debug("There is existing toilet with this parameters!");
 	}
+	
+	public void saveBasicToilet(BasicToilet basicToilet){
+		basicToiletRepository.save(basicToilet);
+	}
 
 	public BasicToilet getBasicToiletById(int id) {
 		return basicToiletRepository.findById(id);

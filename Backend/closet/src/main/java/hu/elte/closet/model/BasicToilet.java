@@ -42,9 +42,10 @@ public class BasicToilet extends BaseEntity {
 	public BasicToilet() {
 	}
 	
-	@Column
+	@Column(nullable = false)
 	private String name;
 
+	@Column(nullable = false)
 	@Embedded
 	private Location location;
 

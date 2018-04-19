@@ -52,7 +52,7 @@ public class BasicToiletService {
 		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
 		openingHour.setToilet(basicToilet);
 		basicToilet.getOpeningHours().put(openingHour.getDay(), openingHour);
-		basicToiletDao.addBasicToilet(basicToilet);
+		basicToiletDao.saveBasicToilet(basicToilet);
 	}
 	
 	public Map<Day, OpeningHour> getOpeningHoursById(int id) {
