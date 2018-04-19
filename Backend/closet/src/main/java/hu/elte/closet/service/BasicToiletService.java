@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.elte.closet.dao.BasicToiletDaoImpl;
+import hu.elte.closet.exception.ClosetException;
 import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.Day;
 import hu.elte.closet.model.OpeningHour;
@@ -64,8 +65,10 @@ public class BasicToiletService {
 		return basicToiletDao.getAll();
 	}
 	
-	public String getStatus(int id){
+	public String getStatus(int id) throws ClosetException{
 		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
+		if(basicToilet==null)
+			throw new ClosetException("Got back null during getStatus.");
 		return basicToilet.getStatus().toString();
 	}
 }
