@@ -63,4 +63,9 @@ public class BasicToiletService {
 	public ArrayList<BasicToilet> getAll(){
 		return basicToiletDao.getAll();
 	}
+	
+	public String getStatus(int id){
+		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
+		return basicToilet.getStatus().toString();
+	}
 }

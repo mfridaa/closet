@@ -161,7 +161,3 @@ public class BasicToilet extends BaseEntity {
 	}
 	
 }
-
-enum Status {
-	Opened, Closed, Unknown
-}

@@ -58,5 +58,10 @@ public class BasicToiletController {
 		return basicToiletService.getAll();
 	}
 	
+	@GetMapping("/status/{id}")
+	public String getStatus(@PathVariable int id) {
+		return basicToiletService.getStatus(id);
+	}
+	
 	
 }
