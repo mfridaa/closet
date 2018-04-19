@@ -35,8 +35,16 @@ public class BasicToiletController {
 	}
 
 	@PostMapping("/add")
-	public void addBasicToilet(@RequestBody NameAndLatitudeAndLongitude nameAndLatitudeAndLongitude) {
-		basicToiletService.addBasicToilet(nameAndLatitudeAndLongitude);
+	public ResponseEntity addBasicToilet(@RequestBody NameAndLatitudeAndLongitude nameAndLatitudeAndLongitude) {
+		int id;
+		try{
+			id = basicToiletService.addBasicToilet(nameAndLatitudeAndLongitude);
+		}catch (ClosetException e) {
+			log.warn(e.getMessage());
+			return ResponseEntity.unprocessableEntity().build();
+		}
+		return ResponseEntity.ok(id);
+		
 	}
 
 	@GetMapping("/get/{id}")

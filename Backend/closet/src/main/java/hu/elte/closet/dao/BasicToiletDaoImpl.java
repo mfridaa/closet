@@ -1,21 +1,19 @@
 package hu.elte.closet.dao;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import hu.elte.closet.exception.ClosetException;
 import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.Location;
 import hu.elte.closet.repository.BasicToiletRepository;
 
 @Service
 public class BasicToiletDaoImpl implements BasicToiletDao {
-	
-	private Logger log = LoggerFactory.getLogger(BasicToiletDaoImpl.class);
 
 	private BasicToiletRepository basicToiletRepository;
 
@@ -24,13 +22,13 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 		this.basicToiletRepository = basicToiletRepository;
 	}
 
-	public void addBasicToilet(BasicToilet basicToilet) {
+	public int addBasicToilet(BasicToilet basicToilet) {
 		Location location = basicToilet.getLocation();
 		ArrayList<BasicToilet> basicToiletList = getBasicToiletsByLocation(location);
 		if(!basicToiletList.contains(basicToilet))
-			basicToiletRepository.save(basicToilet);
+			return basicToiletRepository.save(basicToilet).getId();
 		else
-			log.debug("There is existing toilet with this parameters!");
+			throw new ClosetException("There is existing toilet with these parameters!");
 	}
 	
 	public void saveBasicToilet(BasicToilet basicToilet){

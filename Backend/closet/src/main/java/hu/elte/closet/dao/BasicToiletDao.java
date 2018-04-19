@@ -7,7 +7,7 @@ import hu.elte.closet.model.Location;
 
 public interface BasicToiletDao {
 
-	void addBasicToilet(BasicToilet basicToilet);
+	int addBasicToilet(BasicToilet basicToilet);
 
 	BasicToilet getBasicToiletById(int id);
 	

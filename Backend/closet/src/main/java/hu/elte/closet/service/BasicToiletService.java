@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import hu.elte.closet.model.request.NameAndLatitudeAndLongitude;
 @Service
 public class BasicToiletService {
 
+	private Logger log = LoggerFactory.getLogger(BasicToiletService.class);
+	
 	private BasicToiletDaoImpl basicToiletDao;
 
 	@Autowired
@@ -25,12 +29,12 @@ public class BasicToiletService {
 		this.basicToiletDao = basicToiletDao;
 	}
 
-	public void addBasicToilet(NameAndLatitudeAndLongitude nameAndLatitudeAndLongitude) {
+	public int addBasicToilet(NameAndLatitudeAndLongitude nameAndLatitudeAndLongitude) throws ClosetException{
 		String name = nameAndLatitudeAndLongitude.getName();
 		Float latitude = nameAndLatitudeAndLongitude.getLatitude();
 		Float longitude = nameAndLatitudeAndLongitude.getLongitude();
 		BasicToilet basicToilet = new BasicToilet(name, latitude, longitude);
-		basicToiletDao.addBasicToilet(basicToilet);
+		return basicToiletDao.addBasicToilet(basicToilet);
 	}
 
 	public BasicToilet getBasicToiletById(int id) {
