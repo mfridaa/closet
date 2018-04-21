@@ -8,10 +8,11 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class NavigationTabBarViewController: UITabBarController {
 
-    let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+    let container:NSPersistentContainer? = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,19 +48,25 @@ class NavigationTabBarViewController: UITabBarController {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navigationController = segue.destination as? UINavigationController{
-            if let toiletInformationsViewController = navigationController.childViewControllers[0] as? ToiletInformationsTableViewController {
-                if let annotationSender = sender as? MKAnnotation {
-                    container.performBackgroundTask{ context in
-                        
-                        if let toilet = try! Toilet.findToilet(longitude: Float(annotationSender.coordinate.longitude), latitude:  Float(annotationSender.coordinate.latitude), in: context){
-                            toiletInformationsViewController.status = toilet.status
-                            toiletInformationsViewController.toiletName = toilet.name
-                            toiletInformationsViewController.ratingValue = toilet.rating
-                            toiletInformationsViewController.toiletId = toilet.id
-//                            toiletInformationsViewController.showedToilet = toilet
-                            self.getRating(forToilet: toilet)
+            if let coordinate = ( sender as? CLLocationCoordinate2D ){
+                if let toiletInformationsViewController = navigationController.childViewControllers[0] as? ToiletInformationsTableViewController {
+                    toiletInformationsViewController.container = container
+                    
+                    toiletInformationsViewController.container = container
+                    if let context = container?.viewContext{
+                        if let toilet = try! Toilet.findToilet(longitude: Float(coordinate.longitude), latitude: Float(coordinate.latitude), in: context){
+                            toiletInformationsViewController.toilet = toilet
+                        }
+                        else{
+                            toiletInformationsViewController.coordinates = coordinate
                         }
                     }
+                }
+                
+                if let newToiletViewController = navigationController.childViewControllers[0] as? NewToiletTableViewController {
+                    newToiletViewController.container = container
+                    newToiletViewController.coordinates = coordinate
+                    
                 }
             }
         }
@@ -78,7 +85,7 @@ class NavigationTabBarViewController: UITabBarController {
     */
     
     private func valid(timeStamp : Date?) -> Bool{
-        return timeStamp == nil ? false : timeStamp!.addingTimeInterval(90) > Date.init() ? true : false
+        return timeStamp == nil ? false : timeStamp!.addingTimeInterval(10) > Date.init() ? true : false
     }
     
     
@@ -88,7 +95,7 @@ class NavigationTabBarViewController: UITabBarController {
                 if let data = data{
                     do{
                         let newRatings = try JSONDecoder().decode([BasicRating].self, from: data)
-                        self.container.performBackgroundTask{ contex in
+                        self.container?.performBackgroundTask{ contex in
                             let ownerToilet  = try! Toilet.findToilet(withId: toilet.id, in: contex)
                             //TODO: do something with data
                             if let ratingCount = try? Rating.numberOfToilets(InDatabase: contex){

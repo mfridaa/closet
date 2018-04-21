@@ -50,18 +50,22 @@ class ToiletMapViewController: UIViewController,MKMapViewDelegate,CLLocationMana
     
     @IBAction func addNewPlace(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began{
+            
             let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
-        
-          
-//            postNewToilet(of: toilet)
+            if let tabBarviewController = parent as? NavigationTabBarViewController {
+                    tabBarviewController.performSegue(withIdentifier: "New Place", sender: coordinate)
+  
+            }
+            
+            
             
         }
     }
     
-    private func addNewToilet(latitude:Float,longitude:Float){
-        let toilet = BasicToilet(id: -1,name: "newToilet", location: MapCoordinate(latitude: latitude, longitude: longitude), rating: 0.00, status: "")
-        mapView.addAnnotation(toilet.MKPAnnotation())
-    }
+//    private func addNewToilet(coordinate:CLLocationCoordinate2D){
+//        let toilet = BasicToilet(id: -1,name: "newToilet", location: MapCoordinate(latitude: Float(coordinate.latitude), longitude: Float(coordinate.longitude)), rating: 0.00, status: "")
+//        mapView.addAnnotation(toilet.MKPAnnotation())
+//    }
    
     
     @IBOutlet weak var mapView: MKMapView!
@@ -104,7 +108,8 @@ class ToiletMapViewController: UIViewController,MKMapViewDelegate,CLLocationMana
         if let button = (control as? UIButton),button.buttonType == UIButtonType.detailDisclosure  {
             mapView.deselectAnnotation(view.annotation, animated: false)
             if let navigationParent =  (parent as? NavigationTabBarViewController) {
-                navigationParent.performSegue(withIdentifier: "Show informations", sender: view.annotation)
+                let coordinates = CLLocationCoordinate2D(latitude: (view.annotation?.coordinate.latitude)!, longitude: (view.annotation?.coordinate.longitude)!)
+                navigationParent.performSegue(withIdentifier: "Show informations", sender: coordinates)
             }
         }
     }

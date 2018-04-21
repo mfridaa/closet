@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Trax/Controllers/NavigationTabBarViewController.swift"
-            timestampString = "545678967.009191"
+            timestampString = "546017168.753533"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "NavigationTabBarViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Trax/Controllers/NavigationTabBarViewController.swift"
-            timestampString = "545678967.00964"
+            timestampString = "546017168.753648"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "getRating(forToilet:)"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "valid(timeStamp:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,28 +58,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Trax/Controllers/NavigationTabBarViewController.swift"
-            timestampString = "545678967.009851"
+            timestampString = "546017168.753702"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "refreshToilets()"
-            landmarkType = "7">
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "NavigationTabBarViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Trax/Controllers/ToiletInformationsTableViewController.swift"
-            timestampString = "545597575.2340291"
+            filePath = "Trax/Controllers/ToiletMapViewController.swift"
+            timestampString = "546006797.122409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "prepare(for:sender:)"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "addNewPlace(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

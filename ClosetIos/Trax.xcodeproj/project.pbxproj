@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		3D255CF02083C4D7005CA8C9 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D255CEF2083C4D7005CA8C9 /* Rating.swift */; };
 		3D255CF22083C75A005CA8C9 /* BasicRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D255CF12083C75A005CA8C9 /* BasicRating.swift */; };
+		3D47AED62088A0CA007B0688 /* NewValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47AED52088A0C9007B0688 /* NewValueTableViewCell.swift */; };
+		3D47AED82088A657007B0688 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47AED72088A657007B0688 /* DatePickerTableViewCell.swift */; };
+		3D47AEDA2088B720007B0688 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47AED92088B720007B0688 /* Day.swift */; };
 		3D47B2FC207F84A300E51AB7 /* NavigationTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */; };
 		3D47B302207FF28900E51AB7 /* SearchBarDisplayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */; };
 		3D5D4A8F2080FDC6006835EB /* ToiletData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3D5D4A8D2080FDC6006835EB /* ToiletData.xcdatamodeld */; };
@@ -24,6 +27,7 @@
 		3D841CA1207D74780068407A /* Budapest.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 3D841CA0207D74780068407A /* Budapest.gpx */; };
 		3DC6401F2085580A0025DCC2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC6401E2085580A0025DCC2 /* ViewController.swift */; };
 		3DC64021208559B30025DCC2 /* DataLoaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC64020208559B30025DCC2 /* DataLoaderViewController.swift */; };
+		3DD5AE2B208B783D0060A563 /* NewToiletTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD5AE2A208B783D0060A563 /* NewToiletTableViewController.swift */; };
 		3DD96C4A2080204E008F68AD /* ToiletInformationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */; };
 		3DDB01212085124900F2225F /* RatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDB01202085124900F2225F /* RatingTableViewCell.swift */; };
 		3DDB01232085163000F2225F /* FetchedResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDB01222085163000F2225F /* FetchedResultsTableViewController.swift */; };
@@ -36,6 +40,9 @@
 /* Begin PBXFileReference section */
 		3D255CEF2083C4D7005CA8C9 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		3D255CF12083C75A005CA8C9 /* BasicRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicRating.swift; sourceTree = "<group>"; };
+		3D47AED52088A0C9007B0688 /* NewValueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewValueTableViewCell.swift; sourceTree = "<group>"; };
+		3D47AED72088A657007B0688 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		3D47AED92088B720007B0688 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTabBarViewController.swift; sourceTree = "<group>"; };
 		3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarDisplayController.swift; sourceTree = "<group>"; };
 		3D5D4A8E2080FDC6006835EB /* ToiletData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToiletData.xcdatamodel; sourceTree = "<group>"; };
@@ -53,6 +60,7 @@
 		3D841CA0207D74780068407A /* Budapest.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Budapest.gpx; sourceTree = "<group>"; };
 		3DC6401E2085580A0025DCC2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3DC64020208559B30025DCC2 /* DataLoaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoaderViewController.swift; sourceTree = "<group>"; };
+		3DD5AE2A208B783D0060A563 /* NewToiletTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToiletTableViewController.swift; sourceTree = "<group>"; };
 		3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletInformationsTableViewController.swift; sourceTree = "<group>"; };
 		3DDB01202085124900F2225F /* RatingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingTableViewCell.swift; sourceTree = "<group>"; };
 		3DDB01222085163000F2225F /* FetchedResultsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsTableViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +136,7 @@
 		3DD96C4720800553008F68AD /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3DD5AE2A208B783D0060A563 /* NewToiletTableViewController.swift */,
 				3DD96C492080204E008F68AD /* ToiletInformationsTableViewController.swift */,
 				3D47B2FB207F84A300E51AB7 /* NavigationTabBarViewController.swift */,
 				3D47B301207FF28900E51AB7 /* SearchBarDisplayController.swift */,
@@ -153,12 +162,15 @@
 		3DF5B01D2079241D0046C107 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3D47AED72088A657007B0688 /* DatePickerTableViewCell.swift */,
 				3DF5B01B207923E60046C107 /* URLStorage.swift */,
 				3D75A8FB204740F600C47FFA /* AppDelegate.swift */,
 				3D75A902204740F600C47FFA /* Assets.xcassets */,
 				3D75A904204740F600C47FFA /* LaunchScreen.storyboard */,
 				3DC6401E2085580A0025DCC2 /* ViewController.swift */,
 				3D841CA0207D74780068407A /* Budapest.gpx */,
+				3D47AED52088A0C9007B0688 /* NewValueTableViewCell.swift */,
+				3D47AED92088B720007B0688 /* Day.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -240,14 +252,18 @@
 				3DD96C4A2080204E008F68AD /* ToiletInformationsTableViewController.swift in Sources */,
 				3D47B302207FF28900E51AB7 /* SearchBarDisplayController.swift in Sources */,
 				3DDB01212085124900F2225F /* RatingTableViewCell.swift in Sources */,
+				3DD5AE2B208B783D0060A563 /* NewToiletTableViewController.swift in Sources */,
 				3D47B2FC207F84A300E51AB7 /* NavigationTabBarViewController.swift in Sources */,
+				3D47AED82088A657007B0688 /* DatePickerTableViewCell.swift in Sources */,
 				3D75A8FE204740F600C47FFA /* ToiletMapViewController.swift in Sources */,
 				3D75A8FC204740F600C47FFA /* AppDelegate.swift in Sources */,
 				3D255CF22083C75A005CA8C9 /* BasicRating.swift in Sources */,
+				3D47AEDA2088B720007B0688 /* Day.swift in Sources */,
 				3DF5B01C207923E60046C107 /* URLStorage.swift in Sources */,
 				3D5D4A98208111BB006835EB /* RatingTableViewController.swift in Sources */,
 				3D5D4A9420810243006835EB /* Toilet.swift in Sources */,
 				3D5D4A96208103BA006835EB /* ToiletDataMapViewController.swift in Sources */,
+				3D47AED62088A0CA007B0688 /* NewValueTableViewCell.swift in Sources */,
 				3DDB01252085163900F2225F /* UITableViewDataSource+NSFetchedResultsController.swift in Sources */,
 				3DC6401F2085580A0025DCC2 /* ViewController.swift in Sources */,
 				3DF27C49204975E300B99F5A /* BasicToilet.swift in Sources */,
