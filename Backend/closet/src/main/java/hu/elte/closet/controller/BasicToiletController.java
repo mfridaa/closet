@@ -3,14 +3,10 @@ package hu.elte.closet.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +18,6 @@ import hu.elte.closet.exception.ClosetException;
 import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.OpeningHour;
 import hu.elte.closet.model.Rating;
-import hu.elte.closet.model.request.NameAndLatitudeAndLongitude;
 import hu.elte.closet.model.request.NameAndLatitudeAndLongitudeAndOpeningHours;
 import hu.elte.closet.service.BasicToiletService;
 
@@ -82,6 +77,15 @@ public class BasicToiletController {
 	@PostMapping("/openinghour/add/{id}")
 	public void addOpeningHour(@PathVariable int id, @RequestBody OpeningHour openingHour) {
 		basicToiletService.addOpeningHour(id, openingHour);
+	}
+	
+	@GetMapping("/openinghour/all/{id}")
+	public ResponseEntity getAllOpeningHours(@PathVariable int id) {
+		try{
+			return ResponseEntity.ok(basicToiletService.getOpeningHours(id));
+		}catch (ClosetException e) {
+			return ResponseEntity.unprocessableEntity().build();
+		}
 	}
 	
 	@GetMapping("/all")

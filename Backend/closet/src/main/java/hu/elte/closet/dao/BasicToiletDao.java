@@ -4,6 +4,7 @@ import java.util.List;
 
 import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.Location;
+import hu.elte.closet.model.OpeningHour;
 
 public interface BasicToiletDao {
 
@@ -14,5 +15,7 @@ public interface BasicToiletDao {
 	List<BasicToilet> getBasicToiletsByLocation(Location location);
 	
 	List<BasicToilet> getAll();
+	
+	List<OpeningHour> getOpeningHours(int id);
 
 }

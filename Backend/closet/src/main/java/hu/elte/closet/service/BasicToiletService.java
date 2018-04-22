@@ -37,8 +37,10 @@ public class BasicToiletService {
 		Float longitude = nameAndLatitudeAndLongitudeAndOpeningHours.getLongitude();
 		List<OpeningHour> openingHours = nameAndLatitudeAndLongitudeAndOpeningHours.getOpeningHours();
 		BasicToilet basicToilet;
-		if(openingHours != null)
+		if(openingHours != null){
 			basicToilet = new BasicToilet(name, latitude, longitude, openingHours);
+			openingHours.forEach(o -> o.setToilet(basicToilet));
+		}
 		else
 			basicToilet = new BasicToilet(name, latitude, longitude);
 		return basicToiletDao.addBasicToilet(basicToilet);
@@ -53,8 +55,12 @@ public class BasicToiletService {
 			Float longitude = t.getLongitude();
 			List<OpeningHour> openingHours = t.getOpeningHours();
 			
-			if(openingHours != null)
-				basicToilets.add(new BasicToilet(name, latitude, longitude, openingHours));
+			if(openingHours != null){
+				BasicToilet basicToilet = new BasicToilet(name, latitude, longitude, openingHours);
+				openingHours.forEach(o -> o.setToilet(basicToilet));
+				basicToilets.add(basicToilet);
+			}
+				
 			else
 				basicToilets.add(new BasicToilet(name, latitude, longitude));
 		}
@@ -92,6 +98,10 @@ public class BasicToiletService {
 	
 	public ArrayList<BasicToilet> getAll(){
 		return basicToiletDao.getAll();
+	}
+	
+	public List<OpeningHour> getOpeningHours(int id) throws ClosetException{
+		return basicToiletDao.getOpeningHours(id);
 	}
 	
 	public String getStatus(int id) throws ClosetException{

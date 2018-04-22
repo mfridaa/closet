@@ -1,6 +1,7 @@
 package hu.elte.closet.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import hu.elte.closet.exception.ClosetException;
 import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.Location;
+import hu.elte.closet.model.OpeningHour;
 import hu.elte.closet.repository.BasicToiletRepository;
 
 @Service
@@ -51,6 +53,17 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 		return basicToiletRepository.findById(id);
 	}
 	
+	public List<OpeningHour> getOpeningHours(int id) throws ClosetException{
+		BasicToilet basicToilet =  basicToiletRepository.findById(id);
+		ArrayList<OpeningHour> openingHours = new ArrayList<OpeningHour>();
+		if(basicToilet!=null){
+			Collection<OpeningHour> values = basicToilet.getOpeningHours().values();
+			return new ArrayList<>(values);
+		}
+		else
+			throw new ClosetException("Cannot find toilet by id!");
+	}
+	
 	public ArrayList<BasicToilet> getBasicToiletsByLocation(Location location) {
 		float latitude = location.getLatitude();
 		float longitude = location.getLongitude();
@@ -58,7 +71,6 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 	}
 	
 	public ArrayList<BasicToilet> getAll(){
-		ArrayList<BasicToilet>  asd = basicToiletRepository.findAll();
 		return basicToiletRepository.findAll();
 	}
 	
