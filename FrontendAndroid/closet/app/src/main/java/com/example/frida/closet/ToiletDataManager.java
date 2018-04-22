@@ -4,9 +4,12 @@ package com.example.frida.closet;
 import android.os.Bundle;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -20,6 +23,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,7 +34,7 @@ public class ToiletDataManager {
     private static String result;
 
     public ToiletDataManager(){
-        new HttpAsyncTask().execute("http://188.6.28.33:80/toilet/all");
+        new HttpAsyncTask().execute("http://80.211.203.158:8080/toilet/all");
     }
 
     public static String GET(String url) {
@@ -63,18 +67,56 @@ public class ToiletDataManager {
         while ((res = bufferedReader.readLine()) != null)
             result += res;
 
-        //Log.d("result %s", result);
         JSONArray json = null;
         try {
             json = new JSONArray(result);
-            //result = Integer.toString(json.length());
-            //line = json.get(1).getString("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         inputStream.close();
         return result;
+    }
+
+    private void sendPost(final String... strings) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    URL url = new URL("http://80.211.203.158:8080/toilet/add");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    Log.d("add: %s", strings[0] + " " + strings[1] + " " + strings[2]);
+                    double lat = Double.parseDouble(strings[1]);
+                    double lon = Double.parseDouble(strings[2]);
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("name", strings[0]);
+                    jsonParam.put("latitude", lat);
+                    jsonParam.put("longitude", lon);
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    //os.writeBytes(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
@@ -92,5 +134,17 @@ public class ToiletDataManager {
     public String getResult(){
         //Log.d("result %s", this.result);
         return result;
+    }
+
+    public void newPostAsync(String... strings){
+        new PostMethodAsync().execute(strings);
+    }
+
+    private class PostMethodAsync extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... strings) {
+            sendPost(strings);
+            return "";
+        }
     }
 }

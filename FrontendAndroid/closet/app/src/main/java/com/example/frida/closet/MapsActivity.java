@@ -1,6 +1,8 @@
 package com.example.frida.closet;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -11,16 +13,23 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,7 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         OnMyLocationClickListener,
         OnMarkerClickListener,
         OnInfoWindowClickListener,
-        OnMapReadyCallback {
+        OnMapReadyCallback,
+        OnMapLongClickListener {
 
     private IdGenerator id;
     private GoogleMap mMap;
@@ -57,6 +67,40 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
     private LinearLayout searchView;
     private LinearLayout moreView;
     private TableLayout infoView;
+
+    private TimePicker tp;
+    private TimePicker tp2;
+    private TimePicker tp3;
+    private TimePicker tp4;
+    private TimePicker tp5;
+    private TimePicker tp6;
+    private TimePicker tp7;
+    private TimePicker tp8;
+    private TimePicker tp9;
+    private TimePicker tp10;
+    private TimePicker tp11;
+    private TimePicker tp12;
+    private TimePicker tp13;
+    private TimePicker tp14;
+
+    private GridLayout times;
+    private GridLayout times2;
+    private GridLayout times3;
+    private GridLayout times4;
+    private GridLayout times5;
+    private GridLayout times6;
+    private GridLayout times7;
+
+    private Switch sw;
+    private Switch sw1;
+    private Switch sw2;
+    private Switch sw3;
+    private Switch sw4;
+    private Switch sw5;
+    private Switch sw6;
+    private Switch sw7;
+
+    private String nameText = "";
 
     private ToiletDataManager toiletDataManager = new ToiletDataManager();
 
@@ -121,6 +165,53 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
 
         id = new IdGenerator(this);
         id.getId();
+
+        tp = (TimePicker) findViewById(R.id.timePicker00);
+        tp.setIs24HourView(true);
+        tp2 = (TimePicker) findViewById(R.id.timePicker01);
+        tp2.setIs24HourView(true);
+        tp3 = (TimePicker) findViewById(R.id.timePicker10);
+        tp3.setIs24HourView(true);
+        tp4 = (TimePicker) findViewById(R.id.timePicker11);
+        tp4.setIs24HourView(true);
+        tp5 = (TimePicker) findViewById(R.id.timePicker20);
+        tp5.setIs24HourView(true);
+        tp6 = (TimePicker) findViewById(R.id.timePicker21);
+        tp6.setIs24HourView(true);
+        tp7 = (TimePicker) findViewById(R.id.timePicker30);
+        tp7.setIs24HourView(true);
+        tp8 = (TimePicker) findViewById(R.id.timePicker31);
+        tp8.setIs24HourView(true);
+        tp9 = (TimePicker) findViewById(R.id.timePicker40);
+        tp9.setIs24HourView(true);
+        tp10 = (TimePicker) findViewById(R.id.timePicker41);
+        tp10.setIs24HourView(true);
+        tp11 = (TimePicker) findViewById(R.id.timePicker50);
+        tp11.setIs24HourView(true);
+        tp12 = (TimePicker) findViewById(R.id.timePicker51);
+        tp12.setIs24HourView(true);
+        tp13 = (TimePicker) findViewById(R.id.timePicker60);
+        tp13.setIs24HourView(true);
+        tp14 = (TimePicker) findViewById(R.id.timePicker61);
+        tp14.setIs24HourView(true);
+
+        times = (GridLayout) findViewById(R.id.time1);
+        times2 = (GridLayout) findViewById(R.id.time2);
+        times3 = (GridLayout) findViewById(R.id.time3);
+        times4 = (GridLayout) findViewById(R.id.time4);
+        times5 = (GridLayout) findViewById(R.id.time5);
+        times6 = (GridLayout) findViewById(R.id.time6);
+        times7 = (GridLayout) findViewById(R.id.time7);
+
+        sw = (Switch) findViewById(R.id.switch0);
+        sw2 = (Switch) findViewById(R.id.switch1);
+        sw3 = (Switch) findViewById(R.id.switch2);
+        sw4 = (Switch) findViewById(R.id.switch3);
+        sw5 = (Switch) findViewById(R.id.switch4);
+        sw6 = (Switch) findViewById(R.id.switch5);
+        sw7 = (Switch) findViewById(R.id.switch6);
+
+        setSwitches();
 
         mapView = (LinearLayout) findViewById(R.id.map_view);
         recentsView = (TableLayout) findViewById(R.id.recents_view);
@@ -211,18 +302,8 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        // Add a marker in Sydney and move the camera
         LatLng budapest = new LatLng(47.497912, 19.040235);
-        for (int i = 0; i < this.JsonParse().length(); ++i) {
-            try {
-                JSONObject obj = this.JsonParse().getJSONObject(i);
-                JSONObject latln = obj.getJSONObject("location");
-                this.addMarker(latln.getDouble("latitude"), latln.getDouble("longitude"),
-                        obj.getString("name"), obj.getString("status"), obj.getDouble("rating"), obj.getInt("id"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        update();
 
         mMap.setInfoWindowAdapter(new InfoWindow());
 
@@ -230,11 +311,78 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
 
         mMap.setOnMarkerClickListener(this);
         mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnMapLongClickListener(this);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
         }
 
+    }
+
+    private void setSwitches(){
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    times.setVisibility(View.VISIBLE);
+                } else {
+                    times.setVisibility(View.GONE);
+                }
+            }
+        });
+        sw2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    times2.setVisibility(View.VISIBLE);
+                } else {
+                    times2.setVisibility(View.GONE);
+                }
+            }
+        });
+        sw3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    times3.setVisibility(View.VISIBLE);
+                } else {
+                    times3.setVisibility(View.GONE);
+                }
+            }
+        });
+        sw4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    times4.setVisibility(View.VISIBLE);
+                } else {
+                    times4.setVisibility(View.GONE);
+                }
+            }
+        });
+        sw5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    times5.setVisibility(View.VISIBLE);
+                } else {
+                    times5.setVisibility(View.GONE);
+                }
+            }
+        });
+        sw6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    times6.setVisibility(View.VISIBLE);
+                } else {
+                    times6.setVisibility(View.GONE);
+                }
+            }
+        });
+        sw7.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    times7.setVisibility(View.VISIBLE);
+                } else {
+                    times7.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void addMarker(double lat, double lon, String title, String open, double rating, int id){
@@ -267,14 +415,13 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
     }
 
     public JSONArray JsonParse(){
-        /*String line = "[ { \"name\" : \"Elte Déli Tömb\", \"location\": { \"latitude\": 47.472348, \"longitude\": 19.062353 }, " +
-                "\"rating\": 1.1, \"status\": \"OPEN\", \"ratings\": [] },  { \"name\" : \"Corvinus\", \"location\": { \"latitude\": 47.486157, \"longitude\": 19.057975 }, " +
+        /*String line = "[ { \"id\": 1,\"name\" : \"Elte Déli Tömb\", \"location\": { \"latitude\": 47.472348, \"longitude\": 19.062353 }, " +
+                "\"rating\": 1.1, \"status\": \"OPEN\", \"ratings\": [] },  { \"id\": 2, \"name\" : \"Corvinus\", \"location\": { \"latitude\": 47.486157, \"longitude\": 19.057975 }, " +
                 "\"rating\": 1.1, \"status\": \"CLOSED\", \"ratings\": [] } ]";*/
         String line = toiletDataManager.getResult();
         JSONArray json = null;
         try {
             json = new JSONArray(line);
-            line = Integer.toString(json.length());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -308,5 +455,53 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         searchView.setVisibility(View.GONE);
         moreView.setVisibility(View.GONE);
         infoView.setVisibility(View.VISIBLE);
+    }
+
+    private void update(){
+        toiletDataManager = new ToiletDataManager();
+        for (int i = 0; i < this.JsonParse().length(); ++i) {
+            try {
+                JSONObject obj = this.JsonParse().getJSONObject(i);
+                JSONObject latln = obj.getJSONObject("location");
+                this.addMarker(latln.getDouble("latitude"), latln.getDouble("longitude"),
+                        obj.getString("name"), obj.getString("status"), obj.getDouble("rating"), obj.getInt("id"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onMapLongClick(final LatLng latLng) {
+        Log.d("longclick %s", latLng.toString());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("New toilet's name");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            final LatLng latln = latLng;
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                nameText = input.getText().toString();
+                toiletDataManager.newPostAsync(nameText, Double.toString(latln.latitude), Double.toString(latln.longitude));
+                update();
+                //addMarker(latln.latitude, latln.longitude, nameText, "", 0.0, 0);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
     }
 }

@@ -145,6 +145,10 @@ android:layout_height="match_parent">
             android:progress="5"
             android:thumbTintMode="multiply"
             android:max="10" />
+        <include layout="@layout/timepickers"
+            android:id = "@+id/timepickers"
+        />
+
     </TableLayout>
 
     <android.support.design.widget.BottomNavigationView
