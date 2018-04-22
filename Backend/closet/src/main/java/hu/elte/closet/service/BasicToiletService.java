@@ -3,6 +3,7 @@ package hu.elte.closet.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import hu.elte.closet.model.Day;
 import hu.elte.closet.model.OpeningHour;
 import hu.elte.closet.model.Rating;
 import hu.elte.closet.model.request.NameAndLatitudeAndLongitude;
+import hu.elte.closet.model.request.NameAndLatitudeAndLongitudeAndOpeningHours;
 
 @Service
 public class BasicToiletService {
@@ -28,13 +30,36 @@ public class BasicToiletService {
 	public BasicToiletService(BasicToiletDaoImpl basicToiletDao) {
 		this.basicToiletDao = basicToiletDao;
 	}
-
-	public int addBasicToilet(NameAndLatitudeAndLongitude nameAndLatitudeAndLongitude) throws ClosetException{
-		String name = nameAndLatitudeAndLongitude.getName();
-		Float latitude = nameAndLatitudeAndLongitude.getLatitude();
-		Float longitude = nameAndLatitudeAndLongitude.getLongitude();
-		BasicToilet basicToilet = new BasicToilet(name, latitude, longitude);
+	
+	public BasicToilet addBasicToilet(NameAndLatitudeAndLongitudeAndOpeningHours nameAndLatitudeAndLongitudeAndOpeningHours) throws ClosetException{
+		String name = nameAndLatitudeAndLongitudeAndOpeningHours.getName();
+		Float latitude = nameAndLatitudeAndLongitudeAndOpeningHours.getLatitude();
+		Float longitude = nameAndLatitudeAndLongitudeAndOpeningHours.getLongitude();
+		List<OpeningHour> openingHours = nameAndLatitudeAndLongitudeAndOpeningHours.getOpeningHours();
+		BasicToilet basicToilet;
+		if(openingHours != null)
+			basicToilet = new BasicToilet(name, latitude, longitude, openingHours);
+		else
+			basicToilet = new BasicToilet(name, latitude, longitude);
 		return basicToiletDao.addBasicToilet(basicToilet);
+	}
+	
+	public List<BasicToilet> addBasicToilet(List<NameAndLatitudeAndLongitudeAndOpeningHours> nameAndLatitudeAndLongitudeAndOpeningHours) throws ClosetException{
+		List<BasicToilet> basicToilets = new ArrayList<>();
+		
+		for(NameAndLatitudeAndLongitudeAndOpeningHours t : nameAndLatitudeAndLongitudeAndOpeningHours){
+			String name = t.getName();
+			Float latitude = t.getLatitude();
+			Float longitude = t.getLongitude();
+			List<OpeningHour> openingHours = t.getOpeningHours();
+			
+			if(openingHours != null)
+				basicToilets.add(new BasicToilet(name, latitude, longitude, openingHours));
+			else
+				basicToilets.add(new BasicToilet(name, latitude, longitude));
+		}
+		
+		return basicToiletDao.addBasicToilet(basicToilets);
 	}
 
 	public BasicToilet getBasicToiletById(int id) {

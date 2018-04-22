@@ -1,9 +1,8 @@
 package hu.elte.closet.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +21,26 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 		this.basicToiletRepository = basicToiletRepository;
 	}
 
-	public int addBasicToilet(BasicToilet basicToilet) {
+	public BasicToilet addBasicToilet(BasicToilet basicToilet) {
 		Location location = basicToilet.getLocation();
 		ArrayList<BasicToilet> basicToiletList = getBasicToiletsByLocation(location);
 		if(!basicToiletList.contains(basicToilet))
-			return basicToiletRepository.save(basicToilet).getId();
+			return basicToiletRepository.save(basicToilet);
 		else
 			throw new ClosetException("There is existing toilet with these parameters!");
+	}
+	
+	public List<BasicToilet> addBasicToilet(List<BasicToilet> basicToilets) {
+		List<BasicToilet> returns = new ArrayList<>();
+		for(BasicToilet basicToilet : basicToilets){
+			Location location = basicToilet.getLocation();
+			ArrayList<BasicToilet> basicToiletList = getBasicToiletsByLocation(location);
+			if(!basicToiletList.contains(basicToilet))
+				returns.add(basicToiletRepository.save(basicToilet));
+			else
+				throw new ClosetException("There is existing toilet with these parameters!");
+		}
+		return returns;
 	}
 	
 	public void saveBasicToilet(BasicToilet basicToilet){

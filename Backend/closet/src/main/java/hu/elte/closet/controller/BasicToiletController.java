@@ -3,10 +3,14 @@ package hu.elte.closet.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +23,7 @@ import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.OpeningHour;
 import hu.elte.closet.model.Rating;
 import hu.elte.closet.model.request.NameAndLatitudeAndLongitude;
+import hu.elte.closet.model.request.NameAndLatitudeAndLongitudeAndOpeningHours;
 import hu.elte.closet.service.BasicToiletService;
 
 @RestController
@@ -33,19 +38,31 @@ public class BasicToiletController {
 	public BasicToiletController(BasicToiletService basicToiletService) {
 		this.basicToiletService = basicToiletService;
 	}
-
+	
 	@PostMapping("/add")
-	public ResponseEntity addBasicToilet(@RequestBody NameAndLatitudeAndLongitude nameAndLatitudeAndLongitude) {
-		int id;
+	public ResponseEntity addBasicToilet(@RequestBody List<NameAndLatitudeAndLongitudeAndOpeningHours> nameAndLatitudeAndLongitudeAndOpeningHours) {
+		List<BasicToilet> basicToilets;
 		try{
-			id = basicToiletService.addBasicToilet(nameAndLatitudeAndLongitude);
+			basicToilets = basicToiletService.addBasicToilet(nameAndLatitudeAndLongitudeAndOpeningHours);
 		}catch (ClosetException e) {
 			log.warn(e.getMessage());
 			return ResponseEntity.unprocessableEntity().build();
 		}
-		return ResponseEntity.ok(id);
-		
+		return ResponseEntity.ok(basicToilets);
 	}
+	
+	@PostMapping("/addOne")
+	public ResponseEntity addBasicToilet(@RequestBody NameAndLatitudeAndLongitudeAndOpeningHours nameAndLatitudeAndLongitudeAndOpeningHours) {
+		BasicToilet basicToilet;
+		try{
+			basicToilet = basicToiletService.addBasicToilet(nameAndLatitudeAndLongitudeAndOpeningHours);
+		}catch (ClosetException e) {
+			log.warn(e.getMessage());
+			return ResponseEntity.unprocessableEntity().build();
+		}
+		return ResponseEntity.ok(basicToilet);
+	}
+
 
 	@GetMapping("/get/{id}")
 	public BasicToilet getBasicToiletById(@PathVariable int id) {

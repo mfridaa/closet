@@ -1,5 +1,7 @@
 package hu.elte.closet.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,11 @@ public class OpeningHourDaoImpl implements OpeningHourDao {
 	@Override
 	public void addOpeningHour(OpeningHour openingHour) {
 		openingHourRepository.save(openingHour);
+	}
+	
+	@Override
+	public void addOpeningHours(List<OpeningHour> openingHours) {
+		openingHourRepository.save(openingHours);
 	}
 
 	@Override

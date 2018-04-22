@@ -1,8 +1,20 @@
 package hu.elte.closet.model.request;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+
 public class NameAndLatitudeAndLongitude {
+	
+	@Column(nullable = false)
+	@NotNull
 	private String name;
+	
+	@Column(nullable = false)
+	@NotNull
 	private float latitude;
+	
+	@Column(nullable = false)
+	@NotNull
 	private float longitude;
 
 	public NameAndLatitudeAndLongitude(String name, float latitude, float longitude) {

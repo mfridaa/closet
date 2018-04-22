@@ -17,9 +17,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import hu.elte.closet.exception.ClosetException;
 import hu.elte.closet.utils.ClosetUtils;
 
 @Entity
@@ -31,9 +33,16 @@ public class BasicToilet extends BaseEntity {
 		this.location = new Location(latitude, longitude);
 		updateRating();
 		updateStatus();
+	}	
+	
+	public BasicToilet(String name, Float latitude, Float longitude, List<OpeningHour> openingHours) {
+		this.name = name;
+		this.location = new Location(latitude, longitude);
+		openingHours.forEach(openingHour -> this.openingHours.put(openingHour.getDay(), openingHour));
+		updateStatus();
 	}
-	
-	
+
+
 	public BasicToilet(String name, Location location) {
 		this.name = name;
 		this.location = location;
@@ -42,11 +51,12 @@ public class BasicToilet extends BaseEntity {
 	public BasicToilet() {
 	}
 	
-	@Column(nullable = false)
+	@NotNull
+	@Column
 	private String name;
 
-	@Column(nullable = false)
 	@Embedded
+	@NotNull
 	private Location location;
 
 	@Column

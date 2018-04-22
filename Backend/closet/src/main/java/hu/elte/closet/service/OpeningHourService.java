@@ -1,5 +1,7 @@
 package hu.elte.closet.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,10 @@ public class OpeningHourService {
 
 	public void addOpeningHour(OpeningHour openingHour) {
 		openingHourDao.addOpeningHour(openingHour);
+	}
+	
+	public void addOpeningHour(List<OpeningHour> openingHours) {
+		openingHourDao.addOpeningHours(openingHours);
 	}
 
 	public OpeningHour getOpenigHourById(int id) {

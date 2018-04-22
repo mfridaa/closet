@@ -2,14 +2,20 @@ package hu.elte.closet.model;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 
 
 @Embeddable
 public class Location {
 
+	@NotNull
+	@Column(nullable=false)
 	private Float latitude;
 
+	@NotNull
+	@Column(nullable=false)
 	private Float longitude;
 
 	public Location(Float latitude, Float longitude) {

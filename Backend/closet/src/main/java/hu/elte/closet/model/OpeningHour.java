@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,13 +23,16 @@ public class OpeningHour extends BaseEntity {
 	public OpeningHour() {
 	}
 
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	private Day day;
 
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	private LocalTime openingHour;
 
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	private LocalTime closingHour;
 
 	@JsonIgnore
