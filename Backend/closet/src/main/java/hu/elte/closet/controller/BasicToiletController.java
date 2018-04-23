@@ -19,12 +19,13 @@ import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.OpeningHour;
 import hu.elte.closet.model.Rating;
 import hu.elte.closet.model.request.NameAndLatitudeAndLongitudeAndOpeningHours;
+import hu.elte.closet.model.request.RatingAndStatus;
 import hu.elte.closet.service.BasicToiletService;
 
 @RestController
 @RequestMapping("toilet")
 public class BasicToiletController {
-	
+
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private BasicToiletService basicToiletService;
@@ -33,77 +34,96 @@ public class BasicToiletController {
 	public BasicToiletController(BasicToiletService basicToiletService) {
 		this.basicToiletService = basicToiletService;
 	}
-	
+
 	@PostMapping("/add")
-	public ResponseEntity addBasicToilet(@RequestBody List<NameAndLatitudeAndLongitudeAndOpeningHours> nameAndLatitudeAndLongitudeAndOpeningHours) {
+	public ResponseEntity addBasicToilet(
+			@RequestBody List<NameAndLatitudeAndLongitudeAndOpeningHours> nameAndLatitudeAndLongitudeAndOpeningHours) {
 		List<BasicToilet> basicToilets;
-		try{
+		try {
 			basicToilets = basicToiletService.addBasicToilet(nameAndLatitudeAndLongitudeAndOpeningHours);
-		}catch (ClosetException e) {
+		} catch (ClosetException e) {
 			log.warn(e.getMessage());
 			return ResponseEntity.unprocessableEntity().build();
 		}
 		return ResponseEntity.ok(basicToilets);
 	}
-	
+
 	@PostMapping("/addOne")
-	public ResponseEntity addBasicToilet(@RequestBody NameAndLatitudeAndLongitudeAndOpeningHours nameAndLatitudeAndLongitudeAndOpeningHours) {
+	public ResponseEntity addBasicToilet(
+			@RequestBody NameAndLatitudeAndLongitudeAndOpeningHours nameAndLatitudeAndLongitudeAndOpeningHours) {
 		BasicToilet basicToilet;
-		try{
+		try {
 			basicToilet = basicToiletService.addBasicToilet(nameAndLatitudeAndLongitudeAndOpeningHours);
-		}catch (ClosetException e) {
+		} catch (ClosetException e) {
 			log.warn(e.getMessage());
 			return ResponseEntity.unprocessableEntity().build();
 		}
 		return ResponseEntity.ok(basicToilet);
 	}
 
+	@GetMapping("/ratingAndStatus/{id}")
+	public ResponseEntity getRatingAndStatus(@PathVariable int id) {
+		RatingAndStatus ratingAndStatus;
+		try {
+			ratingAndStatus = basicToiletService.getRatingAndStatusById(id);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(ratingAndStatus);
+	}
 
 	@GetMapping("/get/{id}")
-	public BasicToilet getBasicToiletById(@PathVariable int id) {
-		return basicToiletService.getBasicToiletById(id);
+	public ResponseEntity getBasicToiletById(@PathVariable int id) {
+		BasicToilet basicToilet;
+		try{
+			basicToilet = basicToiletService.getBasicToiletById(id);
+		}catch (Exception e) {
+			log.error(e.getMessage());
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(basicToilet);
 	}
-	
+
 	@GetMapping("/rating/{id}")
 	public List<Rating> getRatingsById(@PathVariable int id) {
 		return basicToiletService.getRatingsById(id);
 	}
-	
+
 	@PostMapping("/rating/add/{id}")
 	public void addRating(@PathVariable int id, @RequestBody Rating rating) {
 		basicToiletService.addRating(id, rating);
 	}
-	
+
 	@PostMapping("/openinghour/add/{id}")
 	public void addOpeningHour(@PathVariable int id, @RequestBody OpeningHour openingHour) {
 		basicToiletService.addOpeningHour(id, openingHour);
 	}
-	
+
 	@GetMapping("/openinghour/all/{id}")
 	public ResponseEntity getAllOpeningHours(@PathVariable int id) {
-		try{
+		try {
 			return ResponseEntity.ok(basicToiletService.getOpeningHours(id));
-		}catch (ClosetException e) {
+		} catch (ClosetException e) {
 			return ResponseEntity.unprocessableEntity().build();
 		}
 	}
-	
+
 	@GetMapping("/all")
 	public ArrayList<BasicToilet> getAll() {
 		return basicToiletService.getAll();
 	}
-	
+
 	@GetMapping("/status/{id}")
 	public ResponseEntity getStatus(@PathVariable int id) {
 		String status;
-		try{
+		try {
 			status = basicToiletService.getStatus(id);
-		}catch (ClosetException e) {
+		} catch (ClosetException e) {
 			log.error(e.getMessage());
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(status);
 	}
-	
-	
+
 }

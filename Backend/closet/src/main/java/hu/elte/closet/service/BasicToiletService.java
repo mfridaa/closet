@@ -3,7 +3,6 @@ package hu.elte.closet.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +15,8 @@ import hu.elte.closet.model.BasicToilet;
 import hu.elte.closet.model.Day;
 import hu.elte.closet.model.OpeningHour;
 import hu.elte.closet.model.Rating;
-import hu.elte.closet.model.request.NameAndLatitudeAndLongitude;
 import hu.elte.closet.model.request.NameAndLatitudeAndLongitudeAndOpeningHours;
+import hu.elte.closet.model.request.RatingAndStatus;
 
 @Service
 public class BasicToiletService {
@@ -68,8 +67,11 @@ public class BasicToiletService {
 		return basicToiletDao.addBasicToilet(basicToilets);
 	}
 
-	public BasicToilet getBasicToiletById(int id) {
-		return basicToiletDao.getBasicToiletById(id);
+	public BasicToilet getBasicToiletById(int id) throws ClosetException{
+		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
+		if(basicToilet == null)
+			throw new ClosetException("Got back null during getting BasicToilet by id!");
+		return basicToilet;
 	}
 
 	public List<Rating> getRatingsById(int id) {
@@ -109,5 +111,10 @@ public class BasicToiletService {
 		if(basicToilet==null)
 			throw new ClosetException("Got back null during getStatus.");
 		return basicToilet.getStatus().toString();
+	}
+	
+	public RatingAndStatus getRatingAndStatusById(int id) throws ClosetException{
+		BasicToilet basicToilet = getBasicToiletById(id);
+		return new RatingAndStatus(basicToilet.getRating(), basicToilet.getStatus());
 	}
 }
