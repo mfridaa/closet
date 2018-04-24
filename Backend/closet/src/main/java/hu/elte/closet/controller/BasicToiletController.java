@@ -3,6 +3,7 @@ package hu.elte.closet.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,8 +87,15 @@ public class BasicToiletController {
 	}
 
 	@GetMapping("/rating/{id}")
-	public List<Rating> getRatingsById(@PathVariable int id) {
-		return basicToiletService.getRatingsById(id);
+	public ResponseEntity getRatingsById(@PathVariable int id) {
+		List<Rating> ratings;
+		try{
+			ratings = basicToiletService.getRatingsById(id);
+		}catch (ClosetException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(ratings);
 	}
 
 	@PostMapping("/rating/add/{id}")
@@ -105,13 +113,21 @@ public class BasicToiletController {
 		try {
 			return ResponseEntity.ok(basicToiletService.getOpeningHours(id));
 		} catch (ClosetException e) {
+			log.error(e.getMessage());
 			return ResponseEntity.unprocessableEntity().build();
 		}
 	}
 
 	@GetMapping("/all")
-	public ArrayList<BasicToilet> getAll() {
-		return basicToiletService.getAll();
+	public ResponseEntity getAll() {
+		ArrayList<BasicToilet> allBasicToilet;
+		try{
+			 allBasicToilet = basicToiletService.getAll();
+		}catch (ClosetException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(allBasicToilet);
 	}
 
 	@GetMapping("/status/{id}")

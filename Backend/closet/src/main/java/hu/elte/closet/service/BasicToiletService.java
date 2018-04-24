@@ -74,7 +74,7 @@ public class BasicToiletService {
 		return basicToilet;
 	}
 
-	public List<Rating> getRatingsById(int id) {
+	public List<Rating> getRatingsById(int id) throws ClosetException{
 		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
 		return basicToilet.getRatings();
 	}
@@ -98,7 +98,7 @@ public class BasicToiletService {
 		return basicToilet.getOpeningHours();
 	}
 	
-	public ArrayList<BasicToilet> getAll(){
+	public ArrayList<BasicToilet> getAll() throws ClosetException{
 		return basicToiletDao.getAll();
 	}
 	

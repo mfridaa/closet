@@ -49,8 +49,11 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 		basicToiletRepository.save(basicToilet);
 	}
 
-	public BasicToilet getBasicToiletById(int id) {
-		return basicToiletRepository.findById(id);
+	public BasicToilet getBasicToiletById(int id) throws ClosetException{
+		BasicToilet basicToilet = basicToiletRepository.findById(id);
+		if(basicToilet == null)
+			throw new ClosetException("Got back null during getBasicToiletById!");
+		return basicToilet;
 	}
 	
 	public List<OpeningHour> getOpeningHours(int id) throws ClosetException{
@@ -70,8 +73,11 @@ public class BasicToiletDaoImpl implements BasicToiletDao {
 		return basicToiletRepository.findByLocation(latitude, longitude);
 	}
 	
-	public ArrayList<BasicToilet> getAll(){
-		return basicToiletRepository.findAll();
+	public ArrayList<BasicToilet> getAll() throws ClosetException{
+		ArrayList<BasicToilet> allBasicToilet = basicToiletRepository.findAll();
+		if(allBasicToilet == null)
+			throw new ClosetException("Got back null during getAll!");
+		return allBasicToilet;
 	}
 	
 }
