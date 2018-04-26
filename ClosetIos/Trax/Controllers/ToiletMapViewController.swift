@@ -26,43 +26,29 @@ class ToiletMapViewController: UIViewController,MKMapViewDelegate,CLLocationMana
         static let EditUserWaypoint = "Edit Waypoint"
     }
     
-    private var toilets:[BasicToilet]?{
-        didSet{
-            if let data = toilets{
-                addWayPoints(wayPoints: data)
-            }
-            
-        }
-    }
     
     func addWayPoints(wayPoints : [BasicToilet]){
-        
+        clearWaypoint()
         mapView?.addAnnotations(wayPoints.map({$0.MKPAnnotation()}))
         mapView?.showAnnotations(wayPoints.map({$0.MKPAnnotation()}), animated: true)
+       
     }
     
-
-
     
     private func clearWaypoint(){
-        mapView?.removeAnnotation(mapView.annotations as! MKAnnotation)
+        mapView?.removeAnnotations(mapView.annotations)
     }
     
     @IBAction func addNewPlace(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began{
             let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
-        
-          
-//            postNewToilet(of: toilet)
-            
+            if let tabBarviewController = parent as? NavigationTabBarViewController {
+                    tabBarviewController.performSegue(withIdentifier: "New Place", sender: coordinate)
+  
+            }
         }
     }
     
-    private func addNewToilet(latitude:Float,longitude:Float){
-        let toilet = BasicToilet(id: -1,name: "newToilet", location: MapCoordinate(latitude: latitude, longitude: longitude), rating: 0.00, status: "")
-        mapView.addAnnotation(toilet.MKPAnnotation())
-    }
-   
     
     @IBOutlet weak var mapView: MKMapView!
         {
@@ -72,17 +58,22 @@ class ToiletMapViewController: UIViewController,MKMapViewDelegate,CLLocationMana
         }
     }
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? ToiletMKPointAnnotation{
+            annotation.refreshStatus()
+        }
+    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation.title! == "My Location"{
             return nil
         }
-
         var annotationView: MKAnnotationView! = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.AnnotationViewReuseIdentifier)
         
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
             annotationView.canShowCallout = true
+            
 
         } else {
             annotationView.annotation = annotation
@@ -104,7 +95,10 @@ class ToiletMapViewController: UIViewController,MKMapViewDelegate,CLLocationMana
         if let button = (control as? UIButton),button.buttonType == UIButtonType.detailDisclosure  {
             mapView.deselectAnnotation(view.annotation, animated: false)
             if let navigationParent =  (parent as? NavigationTabBarViewController) {
-                navigationParent.performSegue(withIdentifier: "Show informations", sender: view.annotation)
+                if let annotation = view.annotation as? ToiletMKPointAnnotation{
+                    navigationParent.performSegue(withIdentifier: "Show informations", sender: annotation)
+                }
+                
             }
         }
     }
@@ -116,8 +110,6 @@ class ToiletMapViewController: UIViewController,MKMapViewDelegate,CLLocationMana
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[0]
 
-        
-        
         let myLocation: CLLocationCoordinate2D = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         
         let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
@@ -139,7 +131,10 @@ class ToiletMapViewController: UIViewController,MKMapViewDelegate,CLLocationMana
     }
 
     
-
+    
+}
+extension MKPointAnnotation{
+    
 }
 
 

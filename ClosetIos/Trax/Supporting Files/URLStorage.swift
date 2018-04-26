@@ -14,6 +14,12 @@ struct URLStorage{
     public static func getRating(forToiletId id :Int) -> String{
         return URLStorage.ServerURL + "toilet/rating/\(id)"
     }
+    public static func getStatus(forToiletId id :Int) -> String{
+        return URLStorage.ServerURL + "toilet/status/\(id)"
+    }
+    public static func getToilet(forToiletId id : Int) ->String{
+        return URLStorage.ServerURL + "toilet/get/\(id)"
+    }
 
 
     

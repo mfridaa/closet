@@ -8,79 +8,70 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class NavigationTabBarViewController: UITabBarController {
 
-    let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+    var container:NSPersistentContainer? = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
     override func viewWillAppear(_ animated: Bool) {
+        updateContexOfControllers()
+    }
+    
+    private var databaseChanged:((_:NavigationTabBarViewController)->Void) = { controller in
+        controller.updateContexOfControllers()
+    }
+    
+    private func updateContexOfControllers(){
         if let controllers = viewControllers{
             for controller in controllers{
                 if let toiletController = ( controller as? ToiletDataTableViewController )  {
-//                    let appdelegate =  (UIApplication.shared.delegate as! AppDelegate)
-                    refreshToilets()
-                    let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+                    refreshToilets(force: false)
                     toiletController.container = container
                 }
             }
         }
-        
     }
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
-
-    @IBOutlet weak var toiletButton: UITabBar!
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem){
         //TODO: --set the views data from database
         
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navigationController = segue.destination as? UINavigationController{
-            if let toiletInformationsViewController = navigationController.childViewControllers[0] as? ToiletInformationsTableViewController {
-                if let annotationSender = sender as? MKAnnotation {
-                    container.performBackgroundTask{ context in
-                        
-                        if let toilet = try! Toilet.findToilet(longitude: Float(annotationSender.coordinate.longitude), latitude:  Float(annotationSender.coordinate.latitude), in: context){
-                            toiletInformationsViewController.status = toilet.status
-                            toiletInformationsViewController.toiletName = toilet.name
-                            toiletInformationsViewController.ratingValue = toilet.rating
-                            toiletInformationsViewController.toiletId = toilet.id
-//                            toiletInformationsViewController.showedToilet = toilet
-                            self.getRating(forToilet: toilet)
-                        }
-                    }
+            if let annotation = ( sender as? ToiletMKPointAnnotation ){
+                if let toiletInformationsViewController = navigationController.childViewControllers[0] as? ToiletInformationsTableViewController {
+                    toiletInformationsViewController.toilet = BasicToilet(id: annotation.id!, name: annotation.title!, location:MapCoordinate(latitude: Float(annotation.coordinate.latitude), longitude: Float(annotation.coordinate.longitude)), rating: 0, status: annotation.subtitle!)
                 }
+                
+                
+            }
+            if let coordinates = ( sender as? CLLocationCoordinate2D){
+                if let newToiletViewController = navigationController.childViewControllers[0] as? NewToiletTableViewController {
+                    newToiletViewController.container = container
+                    newToiletViewController.coordinates = coordinates
+                    newToiletViewController.databaseChanged = {
+                       self.refreshToilets(force: true)
+                    }
+                    
+                }
+                
             }
         }
-       
-        
     }
-    //selese
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     private func valid(timeStamp : Date?) -> Bool{
-        return timeStamp == nil ? false : timeStamp!.addingTimeInterval(90) > Date.init() ? true : false
+        return timeStamp == nil ? false : timeStamp!.addingTimeInterval(1000) > Date.init() ? true : false
     }
     
+    
+    private func databaseUpdated(){
+        DispatchQueue.main.async {
+            self.updateContexOfControllers()
+        }
+       
+    }
     
     func getRating(forToilet toilet:Toilet){
         if let url = URL(string : URLStorage.getRating(forToiletId: Int(toilet.id)))  {
@@ -88,7 +79,7 @@ class NavigationTabBarViewController: UITabBarController {
                 if let data = data{
                     do{
                         let newRatings = try JSONDecoder().decode([BasicRating].self, from: data)
-                        self.container.performBackgroundTask{ contex in
+                        self.container?.performBackgroundTask{ contex in
                             let ownerToilet  = try! Toilet.findToilet(withId: toilet.id, in: contex)
                             //TODO: do something with data
                             if let ratingCount = try? Rating.numberOfToilets(InDatabase: contex){
@@ -97,7 +88,6 @@ class NavigationTabBarViewController: UITabBarController {
                                         let rating = try! Rating.findOrCreateRating(matching: rating, in: contex,forToilet: toilet)
                                         ownerToilet!.addToRatings(rating)
                                         rating.toilet = ownerToilet
-                                        print("rating added")
                                     }
                                     
                                     do{
@@ -126,14 +116,13 @@ class NavigationTabBarViewController: UITabBarController {
     
     }
     
-    func refreshToilets(){
+    func refreshToilets(force:Bool){
         let appdelegate = UIApplication.shared.delegate as! AppDelegate
-        if !valid(timeStamp: appdelegate.getTimeStamp()){
+        if !valid(timeStamp: appdelegate.getTimeStamp()) || force{
             if let url = URL(string : URLStorage.getToilets)  {
                 URLSession.shared.dataTask(with: url) { data, response, err in
                     if let data = data{
                         do{
-                            
                             let newToilets = try JSONDecoder().decode([BasicToilet].self, from: data)
                             appdelegate.persistentContainer.performBackgroundTask{ contex in
                                 for toiletInfo in newToilets{
@@ -141,13 +130,11 @@ class NavigationTabBarViewController: UITabBarController {
                                 }
                                 do{
                                     try contex.save()
-                                    
                                     appdelegate.refreshTimeStamp()
+                                    self.databaseUpdated()
                                 }catch{
                                     print("error")
                                 }
-                                
-                                
                             }
                             
                         }catch let jsonErr{
@@ -159,56 +146,9 @@ class NavigationTabBarViewController: UITabBarController {
                     }
                     }.resume()
             }
-            appdelegate.persistentContainer.performBackgroundTask{ contex in
-                do{
-                    let number = try Toilet.numberOfToilets(InDatabase: contex)
-                    DispatchQueue.main.async {
-                        print("elements in database: \(number)")
-                    }
-                    
-                }
-                catch{
-                    DispatchQueue.main.async {
-                        print(0)
-                    }
-                }
-            }
         }
         
         
     }
     
-//        if let url = URL(string : URLStorage.getToilets){
-////            if let target = ( view as? ToiletDataTableViewController ){
-////                target.processStarted()
-////            }
-//            URLSession.shared.dataTask(with: url) { data, response, err in
-//                if let data = data{
-//                    do{
-//
-//                        let newToilets = try JSONDecoder().decode([BasicToilet].self, from: data)
-//                        print("ok")
-//                        DispatchQueue.main.async {
-//                            if let target = ( view as? ToiletDataTableViewController ){
-//                                target.processTerminated(with:newToilets)
-//                                print("asd")
-//                            }
-////                            self.processTerminated()
-////                            self.toilets = newToilets
-////                            print("asd")
-////                            print(newToilets)
-//                        }
-//                    }catch let jsonErr{
-//                        print("Error serializing json:" ,jsonErr)
-//                    }
-//                }
-//                else{
-//                    print("error")
-//                }
-//                }.resume()
-//        }
-//
-//    }
-
-//}
 }
