@@ -3,14 +3,12 @@ package hu.elte.closet.model.request;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
 
 import hu.elte.closet.model.OpeningHour;
 
 public class NameAndLatitudeAndLongitudeAndOpeningHours extends NameAndLatitudeAndLongitude{
 	
 	@Column(nullable = false)
-	@NotNull
 	private List<OpeningHour> openingHours;
 	
 
@@ -24,7 +22,7 @@ public class NameAndLatitudeAndLongitudeAndOpeningHours extends NameAndLatitudeA
 	}
 
 	public List<OpeningHour> getOpeningHours() {
-		return openingHours;
+		return this.openingHours;
 	}
 
 	public void setOpeningHours(List<OpeningHour> openingHours) {

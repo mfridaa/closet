@@ -36,8 +36,7 @@ public class BasicToiletController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity addBasicToilet(
-			@RequestBody List<NameAndLatitudeAndLongitudeAndOpeningHours> nameAndLatitudeAndLongitudeAndOpeningHours) {
+	public ResponseEntity<List> addBasicToilet(@RequestBody List<NameAndLatitudeAndLongitudeAndOpeningHours> nameAndLatitudeAndLongitudeAndOpeningHours) {
 		List<BasicToilet> basicToilets;
 		try {
 			basicToilets = basicToiletService.addBasicToilet(nameAndLatitudeAndLongitudeAndOpeningHours);
@@ -49,7 +48,7 @@ public class BasicToiletController {
 	}
 
 	@PostMapping("/addOne")
-	public ResponseEntity addBasicToilet(
+	public ResponseEntity<BasicToilet> addBasicToilet(
 			@RequestBody NameAndLatitudeAndLongitudeAndOpeningHours nameAndLatitudeAndLongitudeAndOpeningHours) {
 		BasicToilet basicToilet;
 		try {
@@ -62,7 +61,7 @@ public class BasicToiletController {
 	}
 
 	@GetMapping("/ratingAndStatus/{id}")
-	public ResponseEntity getRatingAndStatus(@PathVariable int id) {
+	public ResponseEntity<RatingAndStatus> getRatingAndStatus(@PathVariable int id) {
 		RatingAndStatus ratingAndStatus;
 		try {
 			ratingAndStatus = basicToiletService.getRatingAndStatusById(id);
@@ -74,7 +73,7 @@ public class BasicToiletController {
 	}
 
 	@GetMapping("/get/{id}")
-	public ResponseEntity getBasicToiletById(@PathVariable int id) {
+	public ResponseEntity<BasicToilet> getBasicToiletById(@PathVariable int id) {
 		BasicToilet basicToilet;
 		try{
 			basicToilet = basicToiletService.getBasicToiletById(id);
@@ -86,7 +85,7 @@ public class BasicToiletController {
 	}
 
 	@GetMapping("/rating/{id}")
-	public ResponseEntity getRatingsById(@PathVariable int id) {
+	public ResponseEntity<List> getRatingsById(@PathVariable int id) {
 		List<Rating> ratings;
 		try{
 			ratings = basicToiletService.getRatingsById(id);
@@ -98,17 +97,29 @@ public class BasicToiletController {
 	}
 
 	@PostMapping("/rating/add/{id}")
-	public void addRating(@PathVariable int id, @RequestBody Rating rating) {
-		basicToiletService.addRating(id, rating);
+	public ResponseEntity addRating(@PathVariable int id, @RequestBody Rating rating) {
+		try{
+			basicToiletService.addRating(id, rating);
+			return ResponseEntity.ok().build();
+		}catch (ClosetException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.unprocessableEntity().build();
+		}
 	}
 
 	@PostMapping("/openinghour/add/{id}")
-	public void addOpeningHour(@PathVariable int id, @RequestBody OpeningHour openingHour) {
-		basicToiletService.addOpeningHour(id, openingHour);
+	public ResponseEntity addOpeningHour(@PathVariable int id, @RequestBody OpeningHour openingHour) {
+		try{
+			basicToiletService.addOpeningHour(id, openingHour);
+			return ResponseEntity.ok().build();
+		}catch (ClosetException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.unprocessableEntity().build();
+		}
 	}
 
 	@GetMapping("/openinghour/all/{id}")
-	public ResponseEntity getAllOpeningHours(@PathVariable int id) {
+	public ResponseEntity<List> getAllOpeningHours(@PathVariable int id) {
 		try {
 			return ResponseEntity.ok(basicToiletService.getOpeningHours(id));
 		} catch (ClosetException e) {
@@ -118,7 +129,7 @@ public class BasicToiletController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity getAll() {
+	public ResponseEntity<ArrayList> getAll() {
 		ArrayList<BasicToilet> allBasicToilet;
 		try{
 			 allBasicToilet = basicToiletService.getAll();
@@ -130,7 +141,7 @@ public class BasicToiletController {
 	}
 
 	@GetMapping("/status/{id}")
-	public ResponseEntity getStatus(@PathVariable int id) {
+	public ResponseEntity<String> getStatus(@PathVariable int id) {
 		String status;
 		try {
 			status = basicToiletService.getStatus(id);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hu.elte.closet.dao.OpeningHourDaoImpl;
+import hu.elte.closet.exception.ClosetException;
 import hu.elte.closet.model.OpeningHour;
 
 @Service
@@ -26,7 +27,7 @@ public class OpeningHourService {
 		openingHourDao.addOpeningHours(openingHours);
 	}
 
-	public OpeningHour getOpenigHourById(int id) {
+	public OpeningHour getOpenigHourById(int id) throws ClosetException{
 		return openingHourDao.getOpeningHourById(id);
 	}
 

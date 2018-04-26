@@ -24,7 +24,7 @@ public class RatingDaoImpl implements RatingDao {
 	public Rating getRatingById(int id) throws ClosetException{
 		Rating rating = ratingRepository.findById(id);
 		if(rating == null)
-			throw new ClosetException("Got back null during getRatingById");
+			throw new ClosetException("Got back null during getRatingById!");
 		return rating;
 	}
 }

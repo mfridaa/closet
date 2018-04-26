@@ -36,7 +36,7 @@ public class BasicToiletService {
 		Float longitude = nameAndLatitudeAndLongitudeAndOpeningHours.getLongitude();
 		List<OpeningHour> openingHours = nameAndLatitudeAndLongitudeAndOpeningHours.getOpeningHours();
 		BasicToilet basicToilet;
-		if(openingHours != null){
+		if(openingHours!=null){
 			basicToilet = new BasicToilet(name, latitude, longitude, openingHours);
 			openingHours.forEach(o -> o.setToilet(basicToilet));
 		}
@@ -54,7 +54,7 @@ public class BasicToiletService {
 			Float longitude = t.getLongitude();
 			List<OpeningHour> openingHours = t.getOpeningHours();
 			
-			if(openingHours != null){
+			if(openingHours!=null){
 				BasicToilet basicToilet = new BasicToilet(name, latitude, longitude, openingHours);
 				openingHours.forEach(o -> o.setToilet(basicToilet));
 				basicToilets.add(basicToilet);
@@ -68,10 +68,7 @@ public class BasicToiletService {
 	}
 
 	public BasicToilet getBasicToiletById(int id) throws ClosetException{
-		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
-		if(basicToilet == null)
-			throw new ClosetException("Got back null during getting BasicToilet by id!");
-		return basicToilet;
+		return basicToiletDao.getBasicToiletById(id);
 	}
 
 	public List<Rating> getRatingsById(int id) throws ClosetException{
@@ -79,21 +76,21 @@ public class BasicToiletService {
 		return basicToilet.getRatings();
 	}
 
-	public void addRating(int id, Rating rating) {
+	public void addRating(int id, Rating rating) throws ClosetException{
 		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
 		rating.setToilet(basicToilet);
 		basicToilet.getRatings().add(rating);
-		basicToiletDao.addBasicToilet(basicToilet);
+		basicToiletDao.saveBasicToilet(basicToilet);
 	}
 	
-	public void addOpeningHour(int id, OpeningHour openingHour) {
+	public void addOpeningHour(int id, OpeningHour openingHour) throws ClosetException{
 		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
 		openingHour.setToilet(basicToilet);
 		basicToilet.getOpeningHours().put(openingHour.getDay(), openingHour);
 		basicToiletDao.saveBasicToilet(basicToilet);
 	}
 	
-	public Map<Day, OpeningHour> getOpeningHoursById(int id) {
+	public Map<Day, OpeningHour> getOpeningHoursById(int id) throws ClosetException{
 		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
 		return basicToilet.getOpeningHours();
 	}
@@ -107,10 +104,7 @@ public class BasicToiletService {
 	}
 	
 	public String getStatus(int id) throws ClosetException{
-		BasicToilet basicToilet = basicToiletDao.getBasicToiletById(id);
-		if(basicToilet==null)
-			throw new ClosetException("Got back null during getStatus.");
-		return basicToilet.getStatus().toString();
+		return basicToiletDao.getBasicToiletById(id).getStatus().toString();
 	}
 	
 	public RatingAndStatus getRatingAndStatusById(int id) throws ClosetException{

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import hu.elte.closet.exception.ClosetException;
 import hu.elte.closet.model.OpeningHour;
 import hu.elte.closet.repository.OpeningHourRepository;
 
@@ -29,8 +30,11 @@ public class OpeningHourDaoImpl implements OpeningHourDao {
 	}
 
 	@Override
-	public OpeningHour getOpeningHourById(int id) {
-		return openingHourRepository.findById(id);
+	public OpeningHour getOpeningHourById(int id) throws ClosetException{
+		OpeningHour openingHour = openingHourRepository.findById(id);
+		if(openingHour == null)
+			throw new ClosetException("Cannot find openingHour!");
+		return openingHour;
 	}
 
 }

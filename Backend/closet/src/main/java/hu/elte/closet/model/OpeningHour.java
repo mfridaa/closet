@@ -67,7 +67,5 @@ public class OpeningHour extends BaseEntity {
 	public void setToilet(BasicToilet toilet) {
 		this.toilet = toilet;
 	}
-	
-	
 
 }

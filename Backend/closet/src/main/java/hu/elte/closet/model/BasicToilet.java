@@ -121,6 +121,10 @@ public class BasicToilet extends BaseEntity {
 	public Map<Day, OpeningHour> getOpeningHours() {
 		return openingHours;
 	}
+	
+	public void setOpeningHours(Map<Day, OpeningHour> openingHours){
+		this.openingHours = openingHours;
+	}
 
 	private void updateRating() {
 		rating = (ratings.isEmpty()) ?  0 : (float) ratings.stream().mapToInt(r -> r.getRatingNum()).sum() / ratings.size();
@@ -132,7 +136,7 @@ public class BasicToilet extends BaseEntity {
 		if(openingHours.containsKey(day)) {
 			OpeningHour openingHour =  openingHours.get(day);
 			LocalTime currentTime = LocalTime.now();
-			if(currentTime.isBefore(openingHour.getOpeningHour()) || currentTime.isAfter(openingHour.getClosingHour()))
+			if(currentTime.isBefore(openingHour.getOpeningHour()) || currentTime.isAfter(openingHour.getClosingHour()) || currentTime.equals(openingHour.getClosingHour()))
 				this.status = Status.Closed;
 			else
 				this.status = Status.Opened;
