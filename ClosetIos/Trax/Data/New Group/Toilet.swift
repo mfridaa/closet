@@ -16,8 +16,7 @@ class Toilet: NSManagedObject
     {
         let request: NSFetchRequest<Toilet> = Toilet.fetchRequest()
         // TODO: --add longitude to search
-        
-        request.predicate = NSPredicate(format: "latitude = %f AND longitude = %f", toilet.location.latitude,toilet.location.longitude)
+        request.predicate = NSPredicate(format: "id = %d", toilet.id)
         do{
             let matches = try context.fetch(request)
             if matches.count > 0{
@@ -99,7 +98,7 @@ class Toilet: NSManagedObject
         let toilets = try context.fetch(request)
         var resultToilets = [BasicToilet]()
         for toilet in toilets{
-            let newToilet = BasicToilet(id:Int(toilet.id),name: toilet.name ?? "", location: MapCoordinate(latitude: toilet.latitude, longitude: toilet.longitude), rating: toilet.rating, status: toilet.status ?? "unknown")
+            let newToilet = BasicToilet(id:toilet.id,name: toilet.name ?? "", location: MapCoordinate(latitude: toilet.latitude, longitude: toilet.longitude), rating: toilet.rating, status: toilet.status ?? "unknown")
             resultToilets.append(newToilet)
         }
         print("asd")

@@ -13,7 +13,6 @@ class SearchController: UIViewController {
     @IBOutlet weak var searcBar: UISearchBar!
     
     @IBAction func swipeDownGesture(_ sender: Any) {
-        print("asd")
         searcBar.isHidden = searcBar.isHidden == true ? false : true
     }
 }

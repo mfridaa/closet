@@ -17,6 +17,20 @@ class DatePickerTableViewCell: UITableViewCell {
     @IBOutlet weak var closeDate: UIDatePicker!
     
     @IBOutlet var openinHours: UIStackView!
+    @IBOutlet weak var showDataSetter: UISwitch!{
+        didSet{
+            if !showDataSetter.isOn {
+                openinHours.removeFromSuperview()
+                if let function = dayRemoved{
+                    function(day!)
+                }
+                
+            }else{
+                cell.addArrangedSubview(openinHours)
+                
+            }
+        }
+    }
     
 //    var opens:Date?
     
@@ -82,6 +96,7 @@ class DatePickerTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         // Initialization code
     }
 

@@ -23,9 +23,9 @@ class NewToiletTableViewController: UITableViewController,UITextFieldDelegate {
     
     var coordinates:CLLocationCoordinate2D?
     
-    var openingHours = [String:Date?]()
+    var openingHours = [String:String]()
     
-    var closingHours = [String:Date?]()
+    var closingHours = [String:String]()
     
     class ConstansIdentifiers{
         static let NewPlace:String = "Editable Cell"
@@ -33,6 +33,79 @@ class NewToiletTableViewController: UITableViewController,UITextFieldDelegate {
         static let Date:String = "Date Picker"
         static let ToiletIsReady:String = "Add Toilet"
     }
+    
+    var databaseChanged:(()->Void)?
+    
+    private func saveToiletToServer(){
+        if let url = URL(string : URLStorage.addToilet)  {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            let newToilet = BasicToilet(id: 0, name: newName ?? "Unnamed", location: MapCoordinate(latitude: Float((coordinates?.latitude)!), longitude: Float((coordinates?.longitude)!)), rating: 0, status: "unknown")
+            var allOpeningHours = [OpeningHour]()
+            for day in openingHours.keys{
+                if let closingHour = closingHours[day]{
+                    if let openingHour = openingHours[day]{
+                        allOpeningHours.append(OpeningHour(day: day, openingHour: openingHour, closingHour: closingHour))
+                    }
+                    
+                }
+            }
+            let postToilet = [newToilet.PostFormWith(openingHours: allOpeningHours)]
+            do{
+                let jsonBody = try JSONEncoder().encode(postToilet)
+                request.httpBody = jsonBody
+            } catch {}
+            
+            URLSession.shared.dataTask(with: request) { data, response, err in
+                if let data = data {
+                    do{
+                        let newToilet = try JSONDecoder().decode([BasicToilet].self, from: data)
+                        
+                        DispatchQueue.main.async {
+                            if let function = self.databaseChanged{
+                                function()
+                            }
+                        }
+                            if let context = self.container?.viewContext{
+                                _ = try? Toilet.findOrCreateToilet(matching: newToilet.first!, in: context)
+                                do{
+                                    try context.save()
+                            
+                                }catch{
+                                    print("error")
+                                }
+                            }
+                      
+
+                    }catch let jsonErr{
+                        print("Error serializing json:" ,jsonErr)
+                    }
+                }
+                else{
+                    print("error")
+                }
+                }.resume()
+        }
+    }
+
+    
+    private func saveToiletToDatebase(toilet:BasicToilet){
+        if let context = container?.viewContext{
+            let toilet = Toilet(context: context)
+            toilet.name = newName ?? "No name"
+            toilet.id = 100
+            toilet.latitude = Float((coordinates?.latitude)!)
+            toilet.longitude = Float((coordinates?.longitude)!)
+            do{
+                try context.save()
+                
+            }catch{
+                print("error")
+            }
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,50 +117,38 @@ class NewToiletTableViewController: UITableViewController,UITextFieldDelegate {
         for (index, element) in openinInformationsCells.enumerated(){
             element.dayOfWeek.text = Day.getDayFor(day: index)
             element.openingSetted = { date,name in
-                self.openingHours[name] = date
-                print(self.openingHours)
+                self.openingHours[name] = self.dateToRightStringFormat(from: date)
             }
             element.closingSetted = { date,name in
-                self.closingHours[name] = date
-                print(self.closingHours)
+                self.closingHours[name] = self.dateToRightStringFormat(from: date)
             }
             element.dayRemoved = { name in
                 self.openingHours.removeValue(forKey: name)
                 self.closingHours.removeValue(forKey: name)
-                print(self.openingHours)
-                print(self.closingHours)
             }
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ConstansIdentifiers.ToiletIsReady {
-            if let context = container?.viewContext{
-                let toilet = Toilet(context: context)
-                toilet.name = newName ?? "No name"
-                toilet.id = 100
-                toilet.latitude = Float((coordinates?.latitude)!)
-                toilet.longitude = Float((coordinates?.longitude)!)
-                do{
-                    try context.save()
-
-                }catch{
-                    print("error")
-                }
-            }
-
+            saveToiletToServer()
+           
             
         }
+    }
+    
+    private func dateToRightStringFormat(from date:Date) -> String{
+        let calendar = Calendar.current
+        
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+      
+        return "\(hour):\(minutes == 0 ? "00" : minutes < 10 ? "0" : "")\(minutes)"
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -102,59 +163,6 @@ class NewToiletTableViewController: UITableViewController,UITextFieldDelegate {
         return section == 0 ? 1 : 7
     }
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -11,22 +11,25 @@ import CoreData
 import MapKit
 
 struct BasicToilet:Decodable,Encodable {
-    let id: Int
+    let id: Int16
     let name: String
     let location: MapCoordinate
     let rating: Float
     let status: String
     
-    public func MKPAnnotation()->MKPointAnnotation{
-        let annotation = MKPointAnnotation()
+    public func MKPAnnotation()->ToiletMKPointAnnotation{
+        let annotation = ToiletMKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(exactly: location.latitude)!, longitude: CLLocationDegrees(exactly: location.longitude)!)
         annotation.title = name
-        annotation.subtitle = status
+        annotation.id = id
         return annotation
     }
     
     public func PostForm()->NameAndLatitudeAndLongitude{
         return NameAndLatitudeAndLongitude(name: name, latitude: location.latitude, longitude: location.longitude)
+    }
+    public func PostFormWith(openingHours:[OpeningHour])->NameAndLatitudeAndLongitudeAndOpeningHours{
+        return NameAndLatitudeAndLongitudeAndOpeningHours(name: name, latitude: location.latitude, longitude: location.longitude,openingHours: openingHours)
     }
     
 }
