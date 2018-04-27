@@ -6,25 +6,36 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class OpeningHours extends BaseEntity {
+public class OpeningHour extends BaseEntity {
 
-	public OpeningHours(Day day, LocalTime openingHour, LocalTime closingHour) {
+	
+	public OpeningHour(Day day, LocalTime openingHour, LocalTime closingHour) {
 		this.day = day;
 		this.openingHour = openingHour;
 		this.closingHour = closingHour;
 	}
 
-	@Column(nullable = false)
+	public OpeningHour() {
+	}
+
+	@Column
+	@NotNull
 	private Day day;
 
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	private LocalTime openingHour;
 
-	@Column(nullable = false)
+	@Column
+	@NotNull
 	private LocalTime closingHour;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "toilet")
 	private BasicToilet toilet;
@@ -53,8 +64,8 @@ public class OpeningHours extends BaseEntity {
 		this.closingHour = closingHour;
 	}
 
-}
+	public void setToilet(BasicToilet toilet) {
+		this.toilet = toilet;
+	}
 
-enum Day {
-	Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
 }

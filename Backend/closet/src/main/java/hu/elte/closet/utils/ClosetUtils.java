@@ -1,7 +1,11 @@
 package hu.elte.closet.utils;
 
-public class ClosetUtils {
+import hu.elte.closet.model.Day;
 
+public class ClosetUtils {
 	
+	public static Day CalendarDayToDay(int day) {
+		return Day.values()[(day+5)%7];
+	}
 	
 }
