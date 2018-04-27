@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3D255CF02083C4D7005CA8C9 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D255CEF2083C4D7005CA8C9 /* Rating.swift */; };
 		3D255CF22083C75A005CA8C9 /* BasicRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D255CF12083C75A005CA8C9 /* BasicRating.swift */; };
+		3D28852D20923F4700D1BA50 /* ClosetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D28852C20923F4700D1BA50 /* ClosetTests.swift */; };
 		3D2B7344208D2AF000EE171F /* ToiletMKPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2B7343208D2AF000EE171F /* ToiletMKPointAnnotation.swift */; };
 		3D47AED62088A0CA007B0688 /* NewValueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47AED52088A0C9007B0688 /* NewValueTableViewCell.swift */; };
 		3D47AED82088A657007B0688 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D47AED72088A657007B0688 /* DatePickerTableViewCell.swift */; };
@@ -37,9 +38,22 @@
 		3DF5B01C207923E60046C107 /* URLStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF5B01B207923E60046C107 /* URLStorage.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3D28852F20923F4700D1BA50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D75A8F0204740F600C47FFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3D75A8F7204740F600C47FFA;
+			remoteInfo = Trax;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		3D255CEF2083C4D7005CA8C9 /* Rating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		3D255CF12083C75A005CA8C9 /* BasicRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicRating.swift; sourceTree = "<group>"; };
+		3D28852A20923F4700D1BA50 /* ClosetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClosetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D28852C20923F4700D1BA50 /* ClosetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosetTests.swift; sourceTree = "<group>"; };
+		3D28852E20923F4700D1BA50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D2B7343208D2AF000EE171F /* ToiletMKPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToiletMKPointAnnotation.swift; sourceTree = "<group>"; };
 		3D47AED52088A0C9007B0688 /* NewValueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewValueTableViewCell.swift; sourceTree = "<group>"; };
 		3D47AED72088A657007B0688 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
@@ -71,6 +85,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3D28852720923F4700D1BA50 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3D75A8F5204740F600C47FFA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -82,6 +103,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D28852B20923F4700D1BA50 /* ClosetTests */ = {
+			isa = PBXGroup;
+			children = (
+				3D28852C20923F4700D1BA50 /* ClosetTests.swift */,
+				3D28852E20923F4700D1BA50 /* Info.plist */,
+			);
+			path = ClosetTests;
+			sourceTree = "<group>";
+		};
 		3D5B48CE208D0B2E000BA5BD /* ServerFormatData */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				3D75A8FA204740F600C47FFA /* Trax */,
+				3D28852B20923F4700D1BA50 /* ClosetTests */,
 				3D75A8F9204740F600C47FFA /* Products */,
 				3D75A90D2048648200C47FFA /* Frameworks */,
 			);
@@ -118,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				3D75A8F8204740F600C47FFA /* Trax.app */,
+				3D28852A20923F4700D1BA50 /* ClosetTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,6 +218,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3D28852920923F4700D1BA50 /* ClosetTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D28853320923F4700D1BA50 /* Build configuration list for PBXNativeTarget "ClosetTests" */;
+			buildPhases = (
+				3D28852620923F4700D1BA50 /* Sources */,
+				3D28852720923F4700D1BA50 /* Frameworks */,
+				3D28852820923F4700D1BA50 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3D28853020923F4700D1BA50 /* PBXTargetDependency */,
+			);
+			name = ClosetTests;
+			productName = ClosetTests;
+			productReference = 3D28852A20923F4700D1BA50 /* ClosetTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		3D75A8F7204740F600C47FFA /* Trax */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3D75A90A204740F600C47FFA /* Build configuration list for PBXNativeTarget "Trax" */;
@@ -209,10 +259,15 @@
 		3D75A8F0204740F600C47FFA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Kiss Levente";
 				TargetAttributes = {
+					3D28852920923F4700D1BA50 = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 3D75A8F7204740F600C47FFA;
+					};
 					3D75A8F7204740F600C47FFA = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -233,11 +288,19 @@
 			projectRoot = "";
 			targets = (
 				3D75A8F7204740F600C47FFA /* Trax */,
+				3D28852920923F4700D1BA50 /* ClosetTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3D28852820923F4700D1BA50 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3D75A8F6204740F600C47FFA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -252,6 +315,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3D28852620923F4700D1BA50 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D28852D20923F4700D1BA50 /* ClosetTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3D75A8F4204740F600C47FFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -284,6 +355,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3D28853020923F4700D1BA50 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3D75A8F7204740F600C47FFA /* Trax */;
+			targetProxy = 3D28852F20923F4700D1BA50 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		3D75A8FF204740F600C47FFA /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -304,6 +383,40 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3D28853120923F4700D1BA50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ClosetTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = kentaur.ClosetTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trax.app/Trax";
+			};
+			name = Debug;
+		};
+		3D28853220923F4700D1BA50 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ClosetTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = kentaur.ClosetTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Trax.app/Trax";
+			};
+			name = Release;
+		};
 		3D75A908204740F600C47FFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -448,6 +561,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3D28853320923F4700D1BA50 /* Build configuration list for PBXNativeTarget "ClosetTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D28853120923F4700D1BA50 /* Debug */,
+				3D28853220923F4700D1BA50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3D75A8F3204740F600C47FFA /* Build configuration list for PBXProject "Trax" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
