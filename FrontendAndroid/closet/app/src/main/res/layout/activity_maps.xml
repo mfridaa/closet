@@ -91,6 +91,20 @@ android:layout_height="match_parent">
                     android:scaleType="center"/>
             </TableRow>
         </TableRow>
+        <TableRow
+            android:id="@+id/save_row">
+            <TableRow
+                android:layout_span="2"
+                android:background="@color/white"
+                android:layout_height="60dp">
+                <Button
+                    android:id="@+id/save_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="SAVE"
+                    android:scaleType="center"/>
+            </TableRow>
+        </TableRow>
         <TableRow>
             <TextView
                 android:text="@string/toilet_name"
@@ -146,10 +160,13 @@ android:layout_height="match_parent">
             android:thumbTintMode="multiply"
             android:max="10" />
         <include layout="@layout/timepickers"
-            android:id = "@+id/timepickers"
         />
 
     </TableLayout>
+
+    <include layout="@layout/new_toilet"
+        android:id="@+id/new_view"
+        />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

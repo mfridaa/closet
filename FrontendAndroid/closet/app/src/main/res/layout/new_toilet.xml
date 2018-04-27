@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1"
+    android:background="@color/grey">
+    <TableRow>
+        <TableRow
+            android:layout_span="2"
+            android:background="@color/white"
+            android:layout_height="60dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cleanshinytoilet"
+                android:scaleType="center"/>
+        </TableRow>
+    </TableRow>
+    <TableRow
+        android:paddingRight="15dp"
+        android:paddingEnd="15dp">
+        <TextView
+            android:text="@string/toilet_name"
+            android:padding="18dip"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingRight="15dp"
+            android:paddingEnd="15dp">
+        </EditText>
+    </TableRow>
+    <include layout="@layout/timepickers"
+        android:paddingRight="15dp"
+        android:paddingEnd="15dp"
+        />
+</TableLayout>

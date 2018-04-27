@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -78,13 +79,14 @@ public class ToiletDataManager {
         return result;
     }
 
-    private void sendPost(final String... strings) {
+    private String sendPost(final String... strings) {
+        StringBuffer response = new StringBuffer();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
 
-                    URL url = new URL("http://80.211.203.158:8080/toilet/add");
+                    URL url = new URL("http://80.211.203.158:8080/toilet/addOne");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -95,10 +97,29 @@ public class ToiletDataManager {
                     Log.d("add: %s", strings[0] + " " + strings[1] + " " + strings[2]);
                     double lat = Double.parseDouble(strings[1]);
                     double lon = Double.parseDouble(strings[2]);
+
                     JSONObject jsonParam = new JSONObject();
                     jsonParam.put("name", strings[0]);
                     jsonParam.put("latitude", lat);
                     jsonParam.put("longitude", lon);
+
+                    if(strings.length > 3 && !strings[3].equals("")){
+                        JSONArray openClose = new JSONArray();
+                        String[] days = strings[3].split(";");
+                        for(String d : days){
+                            String[] day = d.split(",");
+                            JSONObject openingHours = new JSONObject();
+                            openingHours.put("day", day[0]);
+                            day[1] = Integer.parseInt(day[1]) < 10 ? "0" + day[1] : day[1];
+                            day[2] = Integer.parseInt(day[2]) < 10 ? "0" + day[2] : day[2];
+                            day[3] = Integer.parseInt(day[3]) < 10 ? "0" + day[3] : day[3];
+                            day[4] = Integer.parseInt(day[4]) < 10 ? "0" + day[4] : day[4];
+                            openingHours.put("openingHour", day[1] + ":" + day[2]);
+                            openingHours.put("closingHour", day[3] + ":" + day[4]);
+                            openClose.put(openingHours);
+                        }
+                        jsonParam.put("openingHours", openClose);
+                    }
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
@@ -109,7 +130,18 @@ public class ToiletDataManager {
                     os.close();
 
                     Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                    Log.i("MSG" , conn.getResponseMessage());
+                    //Log.d("MSG", conn.getResponseMessage());
+                    //Log.i("MSG" , conn.getResponseMessage());
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String inputline;
+
+                    while((inputline = in.readLine()) != null){
+                        response.append(inputline);
+                    }
+                    in.close();
+                    JSONObject input = new JSONObject(response.toString());
+                    Log.i("MSG", input.toString());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -117,6 +149,7 @@ public class ToiletDataManager {
         });
 
         thread.start();
+        return response.toString();
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
@@ -136,15 +169,21 @@ public class ToiletDataManager {
         return result;
     }
 
-    public void newPostAsync(String... strings){
-        new PostMethodAsync().execute(strings);
+    public String newPostAsync(String... strings){
+        try {
+            return new PostMethodAsync().execute(strings).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
-    private class PostMethodAsync extends AsyncTask<String, Void, String> {
+    private class PostMethodAsync extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
-            sendPost(strings);
-            return "";
+            return sendPost(strings);
         }
     }
 }

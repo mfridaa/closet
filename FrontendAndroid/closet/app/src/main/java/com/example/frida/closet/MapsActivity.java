@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -21,6 +23,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -28,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -67,6 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
     private LinearLayout searchView;
     private LinearLayout moreView;
     private TableLayout infoView;
+    private TableLayout newView;
 
     private TimePicker tp;
     private TimePicker tp2;
@@ -92,7 +97,6 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
     private GridLayout times7;
 
     private Switch sw;
-    private Switch sw1;
     private Switch sw2;
     private Switch sw3;
     private Switch sw4;
@@ -101,6 +105,8 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
     private Switch sw7;
 
     private String nameText = "";
+    private Button saveButton;
+    private TableRow saveRow;
 
     private ToiletDataManager toiletDataManager = new ToiletDataManager();
 
@@ -165,6 +171,9 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
 
         id = new IdGenerator(this);
         id.getId();
+        saveButton = (Button) findViewById(R.id.save_button);
+        saveRow = (TableRow) findViewById(R.id.save_row);
+        saveRow.setVisibility(View.GONE);
 
         tp = (TimePicker) findViewById(R.id.timePicker00);
         tp.setIs24HourView(true);
@@ -196,12 +205,19 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         tp14.setIs24HourView(true);
 
         times = (GridLayout) findViewById(R.id.time1);
+        times.setVisibility(View.GONE);
         times2 = (GridLayout) findViewById(R.id.time2);
+        times.setVisibility(View.GONE);
         times3 = (GridLayout) findViewById(R.id.time3);
+        times3.setVisibility(View.GONE);
         times4 = (GridLayout) findViewById(R.id.time4);
+        times4.setVisibility(View.GONE);
         times5 = (GridLayout) findViewById(R.id.time5);
+        times5.setVisibility(View.GONE);
         times6 = (GridLayout) findViewById(R.id.time6);
+        times6.setVisibility(View.GONE);
         times7 = (GridLayout) findViewById(R.id.time7);
+        times7.setVisibility(View.GONE);
 
         sw = (Switch) findViewById(R.id.switch0);
         sw2 = (Switch) findViewById(R.id.switch1);
@@ -219,6 +235,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         searchView = (LinearLayout) findViewById(R.id.search_view);
         moreView = (LinearLayout) findViewById(R.id.more_view);
         infoView = (TableLayout) findViewById(R.id.info_view);
+        newView = (TableLayout) findViewById(R.id.new_view);
 
         mapView.setVisibility(View.VISIBLE);
         mostViewedView.setVisibility(View.GONE);
@@ -226,6 +243,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         searchView.setVisibility(View.GONE);
         moreView.setVisibility(View.GONE);
         infoView.setVisibility(View.GONE);
+        newView.setVisibility(View.GONE);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -248,6 +266,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
                                 searchView.setVisibility(View.GONE);
                                 moreView.setVisibility(View.GONE);
                                 infoView.setVisibility(View.GONE);
+                                newView.setVisibility(View.GONE);
                                 break;
                             case R.id.action_recents:
                                 mapView.setVisibility(View.GONE);
@@ -256,6 +275,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
                                 searchView.setVisibility(View.GONE);
                                 moreView.setVisibility(View.GONE);
                                 infoView.setVisibility(View.GONE);
+                                newView.setVisibility(View.GONE);
                                 break;
                             case R.id.action_most_viewed:
                                 mapView.setVisibility(View.GONE);
@@ -264,6 +284,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
                                 searchView.setVisibility(View.GONE);
                                 moreView.setVisibility(View.GONE);
                                 infoView.setVisibility(View.GONE);
+                                newView.setVisibility(View.GONE);
                                 break;
                             case R.id.action_search:
                                 mapView.setVisibility(View.GONE);
@@ -272,6 +293,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
                                 searchView.setVisibility(View.VISIBLE);
                                 moreView.setVisibility(View.GONE);
                                 infoView.setVisibility(View.GONE);
+                                newView.setVisibility(View.GONE);
                                 break;
                             case R.id.action_more:
                                 mapView.setVisibility(View.GONE);
@@ -280,6 +302,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
                                 searchView.setVisibility(View.GONE);
                                 moreView.setVisibility(View.VISIBLE);
                                 infoView.setVisibility(View.GONE);
+                                newView.setVisibility(View.GONE);
                                 break;
                         }
                         return true;
@@ -455,10 +478,10 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         searchView.setVisibility(View.GONE);
         moreView.setVisibility(View.GONE);
         infoView.setVisibility(View.VISIBLE);
+        newView.setVisibility(View.GONE);
     }
 
     private void update(){
-        toiletDataManager = new ToiletDataManager();
         for (int i = 0; i < this.JsonParse().length(); ++i) {
             try {
                 JSONObject obj = this.JsonParse().getJSONObject(i);
@@ -479,8 +502,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
 
         // Set up the input
         final EditText input = new EditText(this);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
         builder.setView(input);
 
         // Set up the buttons
@@ -489,9 +511,35 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 nameText = input.getText().toString();
-                toiletDataManager.newPostAsync(nameText, Double.toString(latln.latitude), Double.toString(latln.longitude));
-                update();
-                //addMarker(latln.latitude, latln.longitude, nameText, "", 0.0, 0);
+                TextView name = ((TextView) infoView.findViewById(R.id.toilet_name_id));
+                name.setText(nameText);
+                TextView status = ((TextView) infoView.findViewById(R.id.toilet_status_id));
+                TextView rating = ((TextView) infoView.findViewById(R.id.toilet_rating_id));
+                status.setText("Unknown");
+                rating.setText("0.0");
+
+                saveRow.setVisibility(View.VISIBLE);
+                mapView.setVisibility(View.GONE);
+                mostViewedView.setVisibility(View.GONE);
+                recentsView.setVisibility(View.GONE);
+                searchView.setVisibility(View.GONE);
+                moreView.setVisibility(View.GONE);
+                infoView.setVisibility(View.VISIBLE);
+                newView.setVisibility(View.GONE);
+                saveButton.setOnClickListener(new View.OnClickListener(){
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onClick(View v) {
+                        String result = toiletDataManager.newPostAsync(nameText, Double.toString(latln.latitude), Double.toString(latln.longitude), getOpenClose().toString());
+                        Log.i("result", result);
+                        toiletDataManager = new ToiletDataManager();
+                        update();
+                        saveRow.setVisibility(View.GONE);
+                        mapView.setVisibility(View.VISIBLE);
+                        infoView.setVisibility(View.GONE);
+                        //addMarker(latln.latitude, latln.longitude, nameText, "Unknown", 0.0, 0);
+                    }
+                } );
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -503,5 +551,39 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
 
         builder.show();
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private StringBuffer getOpenClose(){
+        StringBuffer days = new StringBuffer();
+        if(sw.isChecked()){
+            days.append("Monday,").append(tp.getHour()).append(",").append(tp.getMinute()).append(",");
+            days.append(tp2.getHour()).append(",").append(tp2.getMinute()).append(";");
+        }
+        if(sw2.isChecked()){
+            days.append("Tuesday,").append(tp3.getHour()).append(",").append(tp3.getMinute()).append(",");
+            days.append(tp4.getHour()).append(",").append(tp4.getMinute()).append(";");
+        }
+        if(sw3.isChecked()){
+            days.append("Wednesday,").append(tp5.getHour()).append(",").append(tp5.getMinute()).append(",");
+            days.append(tp6.getHour()).append(",").append(tp6.getMinute()).append(";");
+        }
+        if(sw4.isChecked()){
+            days.append("Thursday,").append(tp7.getHour()).append(",").append(tp7.getMinute()).append(",");
+            days.append(tp8.getHour()).append(",").append(tp8.getMinute()).append(";");
+        }
+        if(sw5.isChecked()){
+            days.append("Friday,").append(tp9.getHour()).append(",").append(tp9.getMinute()).append(",");
+            days.append(tp10.getHour()).append(",").append(tp10.getMinute()).append(";");
+        }
+        if(sw6.isChecked()){
+            days.append("Saturday,").append(tp11.getHour()).append(",").append(tp11.getMinute()).append(",");
+            days.append(tp12.getHour()).append(",").append(tp12.getMinute()).append(";");
+        }
+        if(sw7.isChecked()){
+            days.append("Sunday,").append(tp13.getHour()).append(":").append(tp13.getMinute()).append(",");
+            days.append(tp14.getHour()).append(":").append(tp14.getMinute());
+        }
+        return days;
     }
 }
