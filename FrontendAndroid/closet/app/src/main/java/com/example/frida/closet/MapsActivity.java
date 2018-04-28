@@ -108,7 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
     private Button saveButton;
     private TableRow saveRow;
 
-    private ToiletDataManager toiletDataManager = new ToiletDataManager();
+    private ToiletDataManager toiletDataManager = new ToiletDataManager(this);
 
     class InfoWindow implements InfoWindowAdapter {
 
@@ -207,7 +207,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         times = (GridLayout) findViewById(R.id.time1);
         times.setVisibility(View.GONE);
         times2 = (GridLayout) findViewById(R.id.time2);
-        times.setVisibility(View.GONE);
+        times2.setVisibility(View.GONE);
         times3 = (GridLayout) findViewById(R.id.time3);
         times3.setVisibility(View.GONE);
         times4 = (GridLayout) findViewById(R.id.time4);
@@ -481,7 +481,7 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         newView.setVisibility(View.GONE);
     }
 
-    private void update(){
+    public void update(){
         for (int i = 0; i < this.JsonParse().length(); ++i) {
             try {
                 JSONObject obj = this.JsonParse().getJSONObject(i);
@@ -531,9 +531,16 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
                     @Override
                     public void onClick(View v) {
                         String result = toiletDataManager.newPostAsync(nameText, Double.toString(latln.latitude), Double.toString(latln.longitude), getOpenClose().toString());
-                        Log.i("result", result);
-                        toiletDataManager = new ToiletDataManager();
-                        update();
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject(result);
+                            JSONObject latln = json.getJSONObject("location");
+                            addMarker(latln.getDouble("latitude"), latln.getDouble("longitude"),
+                                    json.getString("name"), json.getString("status"), json.getDouble("rating"), json.getInt("id"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         saveRow.setVisibility(View.GONE);
                         mapView.setVisibility(View.VISIBLE);
                         infoView.setVisibility(View.GONE);
@@ -550,7 +557,8 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
         });
 
         builder.show();
-
+        toiletDataManager = new ToiletDataManager(this);
+        update();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

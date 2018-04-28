@@ -1,6 +1,7 @@
 package com.example.frida.closet;
 
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import java.io.BufferedReader;
@@ -25,14 +26,23 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
 
 public class ToiletDataManager {
     private static String result;
+    public static String STATUS;
+    private MapsActivity mapsActivity;
+
+    public ToiletDataManager(MapsActivity mapsActivity){
+        new HttpAsyncTask().execute("http://80.211.203.158:8080/toilet/all");
+        this.mapsActivity = mapsActivity;
+    }
 
     public ToiletDataManager(){
         new HttpAsyncTask().execute("http://80.211.203.158:8080/toilet/all");
@@ -81,11 +91,7 @@ public class ToiletDataManager {
 
     private String sendPost(final String... strings) {
         StringBuffer response = new StringBuffer();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
                 try {
-
                     URL url = new URL("http://80.211.203.158:8080/toilet/addOne");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
@@ -128,8 +134,8 @@ public class ToiletDataManager {
 
                     os.flush();
                     os.close();
-
-                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    STATUS = String.valueOf(conn.getResponseCode());
+                    Log.i("STATUS", STATUS);
                     //Log.d("MSG", conn.getResponseMessage());
                     //Log.i("MSG" , conn.getResponseMessage());
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -145,10 +151,6 @@ public class ToiletDataManager {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        });
-
-        thread.start();
         return response.toString();
     }
 
@@ -185,5 +187,12 @@ public class ToiletDataManager {
         protected String doInBackground(String... strings) {
             return sendPost(strings);
         }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.i("bla", "recieved");
+            mapsActivity.update();
+        }
     }
+
 }
