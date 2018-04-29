@@ -10,7 +10,8 @@ Backend/closet/*.iws
 
 # Mac
 Backend/closet/.DS_Store
-
+ClosetIos/Trax.xcodeproj/project.xcworkspace/xcuserdata/Jana.xcuserdatad/UserInterfaceState.xcuserstate
+.DS_Store
 # Maven
 Backend/closet/log/
 Backend/closet/target/

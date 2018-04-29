@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E199" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Rating" representedClassName=".Rating" syncable="YES" codeGenerationType="category">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="rater" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ratingNum" optional="YES" attributeType="Integer 16" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="toilet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Toilet" inverseName="ratings" inverseEntity="Toilet" syncable="YES"/>
+    </entity>
+    <entity name="Toilet" representedClassName=".Toilet" syncable="YES" codeGenerationType="category">
+        <attribute name="creator" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Rating" inverseName="toilet" inverseEntity="Rating" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Rating" positionX="-315" positionY="-27" width="128" height="118"/>
+        <element name="Toilet" positionX="88" positionY="-58" width="128" height="165"/>
+    </elements>
+</model>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D102" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BasicToilet" representedClassName=".BasicToilet" syncable="YES" codeGenerationType="category">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="openinghours" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Openinghours" inverseName="toilet" inverseEntity="Openinghours" syncable="YES"/>
+        <relationship name="ratings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ratings" inverseName="toilet" inverseEntity="Ratings" syncable="YES"/>
+    </entity>
+    <entity name="Openinghours" representedClassName=".Openinghours" syncable="YES" codeGenerationType="category">
+        <attribute name="closing" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="opening" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="toilet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BasicToilet" inverseName="openinghours" inverseEntity="BasicToilet" syncable="YES"/>
+    </entity>
+    <entity name="Ratings" representedClassName=".Ratings" syncable="YES" codeGenerationType="category">
+        <attribute name="descriptions" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rater" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="toilet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BasicToilet" inverseName="ratings" inverseEntity="BasicToilet" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="BasicToilet" positionX="-3798" positionY="-2500" width="128" height="148"/>
+        <element name="Ratings" positionX="-3564" positionY="-2682" width="128" height="103"/>
+        <element name="Openinghours" positionX="-3429" positionY="-2536" width="128" height="88"/>
+    </elements>
+</model>
