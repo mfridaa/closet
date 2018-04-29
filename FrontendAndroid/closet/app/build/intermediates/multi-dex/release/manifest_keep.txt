@@ -1,3 +1,0 @@
-# Referenced at /Users/Jana/Documents/Elte/2017-18:2/closet/FrontendAndroid/closet/app/build/intermediates/manifests/full/release/AndroidManifest.xml:34
--keep class android.support.multidex.MultiDexApplication { <init>(...); }
-

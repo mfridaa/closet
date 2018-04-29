@@ -1,4 +1,0 @@
-#Sun Apr 29 13:45:21 CEST 2018
-base.0=/Users/Jana/Documents/Elte/2017-18\:2/closet/FrontendAndroid/closet/app/build/intermediates/transforms/dexMerger/debug/366
-path.0=classes.dex
-renamed.0=classes.dex
