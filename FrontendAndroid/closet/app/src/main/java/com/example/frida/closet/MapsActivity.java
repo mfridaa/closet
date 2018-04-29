@@ -589,8 +589,8 @@ public class MapsActivity extends FragmentActivity implements OnMyLocationButton
             days.append(tp12.getHour()).append(",").append(tp12.getMinute()).append(";");
         }
         if(sw7.isChecked()){
-            days.append("Sunday,").append(tp13.getHour()).append(":").append(tp13.getMinute()).append(",");
-            days.append(tp14.getHour()).append(":").append(tp14.getMinute());
+            days.append("Sunday,").append(tp13.getHour()).append(",").append(tp13.getMinute()).append(",");
+            days.append(tp14.getHour()).append(",").append(tp14.getMinute());
         }
         return days;
     }

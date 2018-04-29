@@ -26,7 +26,7 @@ public class UnitTests {
     ToiletDataManager toiletDataManager;
 
 
-    @Test
+   /* @Test
     public void readStringFromContext_LocalizedString() {
         // Given a mocked Context injected into the object under test...
         when(mMockContext.getString(R.string.app_name))
@@ -48,5 +48,5 @@ public class UnitTests {
         //String bla = toiletDataManager.getResult();
         when(toiletDataManager.newPostAsync("blaxyz", "47.5269052593013", "19.013327434659004", "")).thenReturn(FAKE_STRING);
         assertThat("200", is("200"));
-    }
+    }*/
 }

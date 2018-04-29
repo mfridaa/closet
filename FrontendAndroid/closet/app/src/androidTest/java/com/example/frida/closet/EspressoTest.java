@@ -34,6 +34,8 @@ public class EspressoTest{
         onView(withId(R.id.map_view)).perform(longClick());
         onView(withInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL)).perform(typeText("New Toilet"));
         onView(withText("OK")).perform(click());
-        onView(withText("New Toilet")).check(matches(isDisplayed()));
+        onView(withText("New Toilet")).check(matches(withId(R.id.toilet_name_id)));
+        onView(withText("SAVE")).perform(click());
+        onView(withId(R.id.map_view)).check(matches(isDisplayed()));
     }
 }
