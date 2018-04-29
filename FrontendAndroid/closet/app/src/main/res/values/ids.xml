@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="toilet_name_id" type="id" />
+    <item name="toilet_rating_id" type="id" />
+    <item name="toilet_status_id" type="id" />
+</resources>
