@@ -67,7 +67,14 @@ class DatePickerTableViewCell: UITableViewCell {
   
         }else{
             cell.addArrangedSubview(openinHours)
-
+            if let closingFunc = closingSetted{
+                closingFunc(closeDate.date,day!)
+            }
+            if let openingFunc = openingSetted{
+                openingFunc(openDate.date,day!)
+            }
+            
+            
         }
         
     }

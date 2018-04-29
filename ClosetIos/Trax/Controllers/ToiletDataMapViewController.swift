@@ -26,6 +26,7 @@ class ToiletDataTableViewController: ToiletMapViewController
                 DispatchQueue.main.async {
                     self.addWayPoints(wayPoints: toilets)
                 }
+                self.addWayPoints(wayPoints: toilets)
                 
             }
         }

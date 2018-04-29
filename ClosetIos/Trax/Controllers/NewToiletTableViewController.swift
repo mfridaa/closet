@@ -62,19 +62,25 @@ class NewToiletTableViewController: UITableViewController,UITextFieldDelegate {
                     do{
                         let newToilet = try JSONDecoder().decode([BasicToilet].self, from: data)
                         
-                        DispatchQueue.main.async {
-                            if let function = self.databaseChanged{
-                                function()
-                            }
-                        }
                             if let context = self.container?.viewContext{
-                                _ = try? Toilet.findOrCreateToilet(matching: newToilet.first!, in: context)
-                                do{
-                                    try context.save()
-                            
-                                }catch{
-                                    print("error")
+                                context.perform {
+                                    _ = try? Toilet.findOrCreateToilet(matching: newToilet.first!, in: context)
+                                    do{
+                                        try context.save()
+                                        
+                                    }catch{
+                                        print("error")
+                                    }
+                                    DispatchQueue.main.async {
+                                        if let function = self.databaseChanged{
+                                            function()
+                                        }
+                                    }
                                 }
+                               
+                                
+                               
+                                
                             }
                       
 
@@ -143,7 +149,9 @@ class NewToiletTableViewController: UITableViewController,UITextFieldDelegate {
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
       
-        return "\(hour):\(minutes == 0 ? "00" : minutes < 10 ? "0" : "")\(minutes)"
+        let hourString = hour == 0 ? "00" : hour < 10 ? "0\(hour)" : String.init(hour)
+        let minuteString = minutes == 0 ? "00" : minutes < 10 ? "0\(minutes)" : String.init(minutes)
+        return "\(hourString):\(minuteString)"
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
