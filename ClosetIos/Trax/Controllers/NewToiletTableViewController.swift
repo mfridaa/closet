@@ -118,6 +118,7 @@ class NewToiletTableViewController: UITableViewController,UITextFieldDelegate {
             element.dayOfWeek.text = Day.getDayFor(day: index)
             element.openingSetted = { date,name in
                 self.openingHours[name] = self.dateToRightStringFormat(from: date)
+                print(self.openingHours)
             }
             element.closingSetted = { date,name in
                 self.closingHours[name] = self.dateToRightStringFormat(from: date)
@@ -142,8 +143,9 @@ class NewToiletTableViewController: UITableViewController,UITextFieldDelegate {
         
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
-      
-        return "\(hour):\(minutes == 0 ? "00" : minutes < 10 ? "0" : "")\(minutes)"
+        let hourString = hour == 0 ? "00" : hour < 10 ? "0\(hour)" : String.init(hour)
+        let minuteString = minutes == 0 ? "00" : minutes < 10 ? "0\(minutes)" : String.init(minutes)
+        return "\(hourString):\(minuteString)"
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
