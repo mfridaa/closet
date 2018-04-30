@@ -21,7 +21,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import hu.elte.closet.exception.ClosetException;
 import hu.elte.closet.utils.ClosetUtils;
 
 @Entity
@@ -136,7 +135,7 @@ public class BasicToilet extends BaseEntity {
 		if(openingHours.containsKey(day)) {
 			OpeningHour openingHour =  openingHours.get(day);
 			LocalTime currentTime = LocalTime.now();
-			if(currentTime.isBefore(openingHour.getOpeningHour()) || currentTime.isAfter(openingHour.getClosingHour()) || currentTime.equals(openingHour.getClosingHour()))
+			if(currentTime.isBefore(openingHour.getOpeningHour()) || currentTime.isAfter(openingHour.getClosingHour()))
 				this.status = Status.Closed;
 			else
 				this.status = Status.Opened;

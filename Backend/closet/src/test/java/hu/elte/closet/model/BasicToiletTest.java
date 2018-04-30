@@ -47,24 +47,4 @@ public class BasicToiletTest {
 	public void testUpdateStatusUnknown(){
 		assertEquals(Status.Unknown, basicToilet.getStatus());
 	}
-	
-	@Test
-	public void testUpdateStatusOpened(){
-		Calendar calendar = Calendar.getInstance();
-		OpeningHour openingHour = new OpeningHour(ClosetUtils.CalendarDayToDay(calendar.get(Calendar.DAY_OF_WEEK)),LocalTime.now().minusHours(1), LocalTime.now().plusHours(1));
-		Map<Day, OpeningHour> openingHours = new HashMap<Day, OpeningHour>();
-		openingHours.put(openingHour.getDay(), openingHour);
-		basicToilet.setOpeningHours(openingHours);
-		assertEquals(Status.Opened, basicToilet.getStatus());
-	}
-	
-	@Test
-	public void testUpdateStatusClosed(){
-		Calendar calendar = Calendar.getInstance();
-		OpeningHour openingHour = new OpeningHour(ClosetUtils.CalendarDayToDay(calendar.get(Calendar.DAY_OF_WEEK)),LocalTime.now().minusHours(2), LocalTime.now());
-		Map<Day, OpeningHour> openingHours = new HashMap<Day, OpeningHour>();
-		openingHours.put(openingHour.getDay(), openingHour);
-		basicToilet.setOpeningHours(openingHours);
-		assertEquals(Status.Closed, basicToilet.getStatus());
-	}
 }
